@@ -14,6 +14,16 @@ class Race extends Model {
     public $timestamps = False;
 
     /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'subdomain';
+    }
+
+    /**
      * Get teams
      */
     function teams() {
