@@ -17,7 +17,7 @@ class CreateTeamsTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('race_subdomain');
-            $table->unsignedBigInteger('manager_id');
+            $table->unsignedBigInteger('captain_id');
 
             $table->string('name');
 

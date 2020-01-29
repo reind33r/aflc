@@ -1,0 +1,36 @@
+.steps {
+    .nav-item {     
+        .nav-link {
+            @extend .text-body;
+            @extend .mb-2;
+
+            .step-i {
+                font-size: 1.2em;
+                display: block;
+            }
+
+            &.disabled {
+                @extend .text-muted;
+            }
+
+            &.active {
+                font-weight: bold;
+
+                &.has-error {
+                    @extend .text-danger;
+                }
+            }
+        }
+
+        &:first-child {
+            .nav-link {
+                padding-left: 0;
+            }
+        }
+        &:last-child {
+            .nav-link {
+                padding-right: 0;
+            }
+        }
+    }
+}

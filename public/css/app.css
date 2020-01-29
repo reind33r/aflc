@@ -8906,6 +8906,7 @@ button.bg-dark:focus {
 }
 
 .mb-2,
+.steps .nav-item .nav-link,
 .my-2 {
   margin-bottom: 0.5rem !important;
 }
@@ -11186,12 +11187,15 @@ a.text-warning:focus {
   color: #fde300 !important;
 }
 
-.text-danger {
+.text-danger,
+.steps .nav-item .nav-link.active.has-error {
   color: #e3342f !important;
 }
 
 a.text-danger:hover,
-a.text-danger:focus {
+.steps .nav-item a.nav-link.active.has-error:hover,
+a.text-danger:focus,
+.steps .nav-item a.nav-link.active.has-error:focus {
   color: #ae1c17 !important;
 }
 
@@ -11213,11 +11217,13 @@ a.text-dark:focus {
   color: #121416 !important;
 }
 
-.text-body {
+.text-body,
+.steps .nav-item .nav-link {
   color: #212529 !important;
 }
 
-.text-muted {
+.text-muted,
+.steps .nav-item .nav-link.disabled {
   color: #6c757d !important;
 }
 
@@ -11354,6 +11360,23 @@ a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6;
   }
+}
+
+.steps .nav-item .nav-link .step-i {
+  font-size: 1.2em;
+  display: block;
+}
+
+.steps .nav-item .nav-link.active {
+  font-weight: bold;
+}
+
+.steps .nav-item:first-child .nav-link {
+  padding-left: 0;
+}
+
+.steps .nav-item:last-child .nav-link {
+  padding-right: 0;
 }
 
 #layout_header {

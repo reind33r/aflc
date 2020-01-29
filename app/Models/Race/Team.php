@@ -16,10 +16,10 @@ class Team extends Model {
     }
 
     /**
-     * Get team manager
+     * Get team captain
      */
-    function manager() {
-        return $this->belongsTo('App\Models\User', 'manager_id');
+    function captain() {
+        return $this->belongsTo('App\Models\User', 'captain_id');
     }
 
     /**

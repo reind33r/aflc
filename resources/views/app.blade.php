@@ -42,13 +42,15 @@
             </div>
         </header>
 
+        @isset($race)
         <div class="nav-scroller py-1 mb-2">
             <nav class="nav d-flex justify-content-between">
-                <a href="/" class="p-2 text-muted">Accueil</a>
+                <a href="{{ route('index') }}" class="p-2 text-muted">Accueil</a>
                 <a href="#" class="p-2 text-muted">Programme</a>
                 @guest
-                <a href="{{ route('register') }}" class="p-2 text-muted">Inscription</a>
+                <a href="{{ route('race.register') }}" class="p-2 text-muted">Inscription</a>
                 @else
+                <a href="{{ route('race.register') }}" class="p-2 text-muted">Inscription</a>
                 <a href="#" class="p-2 text-muted">Mon inscription</a>
                 @endguest
                 <a href="#" class="p-2 text-muted">Règlement</a>
@@ -56,6 +58,7 @@
                 <a href="#" class="p-2 text-muted">Tancarville en Fête</a>
             </nav>
         </div>
+        @endisset
     </div>
 
     <main class="container">
