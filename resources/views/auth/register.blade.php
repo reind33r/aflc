@@ -78,6 +78,11 @@
         <p>
             Si tu as déjà un compte, tu peux <a href="{{ route('login') }}">te connecter</a>.
         </p>
+        @if(session()->has('previous_url'))
+        <p>
+            <a href="{{ session()->get('previous_url') }}" class="btn btn-sm btn-secondary">Retour</a>
+        </p>
+        @endif
     </div>
 </div>
 @endsection

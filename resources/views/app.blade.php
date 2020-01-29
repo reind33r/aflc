@@ -14,9 +14,7 @@
                 <div class="col-8 offset-2 text-center">
                     <a class="header-logo text-dark" href="/">
                         <img src="{{ asset('img/racing_flags.png') }}" alt="Drapeau de course" class="align-text-top">
-                        @isset($race)
-                        <span class="text-nowrap">{{ $race->name }}</span>
-                        @endisset
+                        <span class="text-nowrap">{{ $race->name ?? 'À fond la caisse !' }}</span>
                     </a>
                     @isset($race)
                     <span class="d-block text-muted ">À {{ $race->location }}, le @human_date($race->date)</span>

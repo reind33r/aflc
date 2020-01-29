@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\URL;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 class RegisterController extends Controller
 {
@@ -25,11 +27,25 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
+     * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    public function redirectTo() {
+        return Session::pull('previous_url', RouteServiceProvider::HOME);
+    }
+
+    /**
+     * Sets the previous URL in session if it doesn't exist
+     */
+    public function showRegistrationForm()
+    {
+        if(!Session::has('previous_url')){
+            Session::put('previous_url', URL::previous());
+        }
+
+        return view('auth.register');
+    }
 
     /**
      * Create a new controller instance.

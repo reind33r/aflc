@@ -40,6 +40,11 @@
         <p>
             Si tu n'as pas encore de compte, tu peux <a href="{{ route('register') }}">t'inscrire</a>.
         </p>
+        @if(session()->has('previous_url'))
+        <p>
+            <a href="{{ session()->get('previous_url') }}" class="btn btn-sm btn-secondary">Retour</a>
+        </p>
+        @endif
     </div>
 </div>
 @endsection

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -19,14 +21,30 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers {
+        logout as _logout;
+    }
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    public function redirectTo() {
+        return Session::pull('previous_url', RouteServiceProvider::HOME);
+    }
+
+    /**
+     * Sets the previous URL in session if it doesn't exist
+     */
+    public function showLoginForm()
+    {
+        if(!Session::has('previous_url')){
+            Session::put('previous_url', URL::previous());
+        }
+
+        return view('auth.login');
+    }
 
     /**
      * Create a new controller instance.
@@ -36,5 +54,15 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Log the user out of the application.
+     */
+    public function logout(\Illuminate\Http\Request $request)
+    {
+        $this->_logout($request);
+
+        return redirect(URL::previous());
     }
 }
