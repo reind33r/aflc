@@ -12,11 +12,15 @@
         <header id="layout_header" class="py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-8 offset-2 text-center">
-                    <a class="header-logo text-dark" href="{{ route('index') }}">
+                    <a class="header-logo text-dark" href="/">
                         <img src="{{ asset('img/racing_flags.png') }}" alt="Drapeau de course" class="align-text-top">
+                        @isset($race)
                         <span class="text-nowrap">{{ $race->name }}</span>
+                        @endisset
                     </a>
+                    @isset($race)
                     <span class="d-block text-muted ">À {{ $race->location }}, le @human_date($race->date)</span>
+                    @endisset
                 </div>
                 {{-- LIENS AUTHENTIFICATION --}}
                 <div class="col-2 d-flex justify-content-end align-items-center">
@@ -42,7 +46,7 @@
 
         <div class="nav-scroller py-1 mb-2">
             <nav class="nav d-flex justify-content-between">
-                <a href="{{ route('index') }}" class="p-2 text-muted">Accueil</a>
+                <a href="/" class="p-2 text-muted">Accueil</a>
                 <a href="#" class="p-2 text-muted">Programme</a>
                 @guest
                 <a href="{{ route('register') }}" class="p-2 text-muted">Inscription</a>

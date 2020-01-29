@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\URL;
 
 // use App\Model\Race\Race as RaceModel;
 
-class Race
+class RaceSubdomain
 {
     public function handle($request, Closure $next)
     {

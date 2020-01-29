@@ -11,12 +11,14 @@
 |
 */
 
-Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race')->group(function () {    
+Route::domain('root.'.env('APP_DOMAIN'))->group(function () {
+    Auth::routes(['verify' => true]);
+});
+
+Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(function () {    
     Route::get('/', function () {
         return view('cms.page');
     })->name('index');
 });
-
-Auth::routes(['verify' => true]);
 
 // Route::get('/home', 'HomeController@index')->name('home');
