@@ -14,9 +14,9 @@
                 <div class="col-8 offset-2 text-center">
                     <a class="header-logo text-dark" href="{{ route('index') }}">
                         <img src="{{ asset('img/racing_flags.png') }}" alt="Drapeau de course" class="align-text-top">
-                        <span class="text-nowrap">À fond la caisse !</span>
+                        <span class="text-nowrap">{{ $race->name }}</span>
                     </a>
-                    <span class="d-block text-muted ">À Tancarville, le 30 septembre 2020</span>
+                    <span class="d-block text-muted ">À {{ $race->location }}, le @human_date($race->date)</span>
                 </div>
                 {{-- LIENS AUTHENTIFICATION --}}
                 <div class="col-2 d-flex justify-content-end align-items-center">

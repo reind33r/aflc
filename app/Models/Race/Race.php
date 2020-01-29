@@ -13,6 +13,11 @@ class Race extends Model {
     // No created_at / updated_at columns
     public $timestamps = False;
 
+    // Other
+    protected $dates = [
+        'date',
+    ];
+
     /**
      * Get the route key for the model.
      *

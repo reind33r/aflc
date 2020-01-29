@@ -15,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        \Carbon\Carbon::setLocale('fr');
+        setlocale(LC_TIME, 'fr_FR.UTF-8');
     }
 
     /**
@@ -27,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::component('bootstrap.form.input', 'input');
         Blade::component('bootstrap.form.checkbox', 'checkbox');
+
+        Blade::directive('human_date', function ($expression) {
+            return "<?php use App\Helpers\HumanDateFormat; echo HumanDateFormat::format({$expression}); ?>";
+        });
     }
 }
