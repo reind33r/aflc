@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('bootstrap.form.checkbox', 'checkbox');
 
         Blade::directive('human_date', function ($expression) {
-            return "<?php use App\Helpers\HumanDateFormat; echo HumanDateFormat::format({$expression}); ?>";
+            return "<?php require_once(app_path('Helpers/HumanDateFormat.php')); echo \App\Helpers\HumanDateFormat::format({$expression}); ?>";
         });
     }
 }
