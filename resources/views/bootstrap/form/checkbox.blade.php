@@ -1,11 +1,15 @@
 <div class="form-group">
     <div class="form-check">
-        <input type="checkbox" name="{{ $name }}" id="{{ $name }}" {{ old($name) ? 'checked' : '' }}
+        @isset($wrap_label_tag)<{{ $wrap_label_tag }}>@endisset
+        
+        <input type="checkbox" name="{{ $name }}" id="{{ $name }}" {{ old($name, $initial ?? '') ? 'checked' : '' }}
             class="form-check-input"
             @if($required ?? False) required @endif
         >
 
-        <label for="{{ $name }}" class="form-check-label">{{ $label }}</label>
+        <label for="{{ $name }}" class="form-check-label">{{ $slot ?? $label }}</label>
+
+        @isset($wrap_label_tag)</{{ $wrap_label_tag }}>@endisset
 
         @error($name)
         <div class="invalid-feedback">

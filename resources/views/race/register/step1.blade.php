@@ -7,8 +7,8 @@
 @section('content')
 @include('race.register._steps', [
     'active' => 1,
-    'user_progress' => 3, // TODO: from controller
-    'has_error' => false, // TODO: from controller
+    'user_progress' => $registration_form_data->userProgress(),
+    'has_error' => false, // TODO
 ])
 
 <p>
@@ -48,6 +48,121 @@
 
 <h3>Vérification de mes informations personnelles</h3>
 
+<p>
+    Nous utilisons ces informations pour te communiquer les informations relatives
+    à la course. Elles ne seront en aucun cas communiquées à des tiers sans
+    ton autorisation.
+</p>
 
+<form method="POST" action="{{ route('race.register.handleStep') }}">
+    @csrf
+    <input type="hidden" name="step" value="1">
+
+    <div class="row">
+        <div class="col-md-2">
+            @select([
+                'name' => 'honorific_prefix',
+                'autocomplete' => 'honorific-prefix',
+                'options' => [
+                    'm' => 'M.',
+                    'mme' => 'Mme.',
+                    'autre' => 'Autre',
+                ],
+                'required' => True,
+                'initial' => $registration_form_data->get('captain_honorific_prefix'),
+            ])
+            Civilité
+            @endselect
+        </div>
+
+        <div class="col-md-5">
+            @input([
+                'name' => 'first_name',
+                'autocomplete' => 'given-name',
+                'required' => True,
+                'initial' => $registration_form_data->get('captain_first_name'),
+            ])
+            Prénom
+            @endinput
+        </div>
+
+        <div class="col-md-5">
+            @input([
+                'name' => 'last_name',
+                'autocomplete' => 'family-name',
+                'required' => True,
+                'initial' => $registration_form_data->get('captain_last_name'),
+            ])
+            Nom de famille
+            @endinput
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+            @input([
+                'name' => 'email',
+                'type' => 'email',
+                'autocomplete' => 'email',
+                'required' => True,
+                'initial' => $registration_form_data->get('captain_email'),
+            ])
+            Adresse email
+            @endinput
+        </div>
+
+        <div class="col-md-5">
+            @input([
+                'name' => 'mobile_phone',
+                'type' => 'tel',
+                'autocomplete' => 'tel-national',
+                'required' => True, 
+                'initial' => $registration_form_data->get('captain_mobile_phone'),
+            ])
+            Numéro de téléphone portable
+            @endinput
+        </div>
+    </div>
+
+    @textarea([
+        'name' => 'address',
+        'autocomplete' => 'street-address',
+        'required' => True,
+        'initial' => $registration_form_data->get('captain_address'),
+    ])
+    Adresse
+    @endtextarea
+
+    <div class="row">
+        <div class="col-sm-3">
+            @input([
+                'name' => 'zip_code',
+                'type' => 'text',
+                'autocomplete' => 'postal-code',
+                'required' => True,
+                'initial' => $registration_form_data->get('captain_zip_code'),
+            ])
+            Code postal
+            @endinput
+        </div>
+
+        <div class="col-sm-9">
+            @input([
+                'name' => 'city',
+                'type' => 'tel',
+                'autocomplete' => 'address-level2',
+                'required' => True,
+                'initial' => $registration_form_data->get('captain_city'),
+            ])
+            Ville
+            @endinput
+        </div>
+    </div>
+
+    <input type="submit" name="nextStep"
+           value="Suivant" class="btn btn-primary">
+
+    <input type="submit" name="back"
+           value="Retour" class="btn btn-secondary btn-sm">
+</form>
 @endguest
 @endsection

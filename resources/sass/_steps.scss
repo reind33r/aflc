@@ -1,8 +1,12 @@
 .steps {
-    .nav-item {     
+    background: darken($body-bg, 15%);
+    @extend .rounded;
+    @extend .mb-2;
+
+    .nav-item {        
         .nav-link {
             @extend .text-body;
-            @extend .mb-2;
+            // @extend .mb-2;
 
             .step-i {
                 font-size: 1.2em;
@@ -19,17 +23,6 @@
                 &.has-error {
                     @extend .text-danger;
                 }
-            }
-        }
-
-        &:first-child {
-            .nav-link {
-                padding-left: 0;
-            }
-        }
-        &:last-child {
-            .nav-link {
-                padding-right: 0;
             }
         }
     }

@@ -21,6 +21,7 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
     })->name('index');
 
 
+    Route::post('/register/_handle', 'Race\RegistrationController@handleStep')->name('race.register.handleStep');
     Route::redirect('/register', '/register/1-captain')->name('race.register');
     Route::get('/register/1-captain', 'Race\RegistrationController@showStep1')->name('race.register.step1');
     Route::get('/register/2-pilots', 'Race\RegistrationController@showStep2')->name('race.register.step2');
