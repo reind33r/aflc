@@ -23,6 +23,7 @@
             @checkbox([
                 'name' => 'captain_is_pilot',
                 'wrap_label_tag' => 'h5',
+                'checked' => $registration_form_data->get('captain_is_pilot')
             ])
                 Je suis pilote
             @endcheckbox
@@ -31,7 +32,7 @@
                 'name' => 'captain_birthday',
                 'type' => 'date',
                 'required' => True,
-                'initial' => $registration_form_data->get('captain_first_name'),
+                'initial' => $registration_form_data->get('captain_birthday'),
             ])
             Date de naissance
             @endinput
@@ -50,7 +51,9 @@
         @forelse(old('pilots', $registration_form_data->get('pilots')) as $key => $pilot)
         @include('race.register._pilotCard', ['index' => $key])
         @empty
+        @unless($registration_form_data->get('captain_is_pilot'))
         @include('race.register._pilotCard', ['index' => 1])
+        @endunless
         @endforelse
     </div>
 

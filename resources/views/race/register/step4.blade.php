@@ -36,29 +36,28 @@
     </p>
 
     <dl class="row">
-        <dt class="col-sm-3">Description lists</dt>
-        <dd class="col-sm-9">A description list is perfect for defining terms.</dd>
-      
-        <dt class="col-sm-3">Euismod</dt>
+        <dt class="col-sm-3">Nom</dt>
         <dd class="col-sm-9">
-          <p>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</p>
-          <p>Donec id elit non mi porta gravida at eget metus.</p>
+            @lang('keys.' . $registration_form_data->get('captain_honorific_prefix'))
+            {{ $registration_form_data->get('captain_first_name') }}
+            {{ $registration_form_data->get('captain_last_name') }}
         </dd>
       
-        <dt class="col-sm-3">Malesuada porta</dt>
-        <dd class="col-sm-9">Etiam porta sem malesuada magna mollis euismod.</dd>
-      
-        <dt class="col-sm-3 text-truncate">Truncated term is truncated</dt>
-        <dd class="col-sm-9">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</dd>
-      
-        <dt class="col-sm-3">Nesting</dt>
+        <dt class="col-sm-3">Informations de contact</dt>
         <dd class="col-sm-9">
-          <dl class="row">
-            <dt class="col-sm-4">Nested definition list</dt>
-            <dd class="col-sm-8">Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc.</dd>
-          </dl>
+            {{ $registration_form_data->get('captain_email') }}
+            <br>
+            @phone($registration_form_data->get('captain_mobile_phone'))
         </dd>
-      </dl>
+      
+        <dt class="col-sm-3">Adresse postale</dt>
+        <dd class="col-sm-9">
+            {!! nl2br(e($registration_form_data->get('captain_address'))) !!}
+            <br>
+            {{ $registration_form_data->get('captain_zip_code') }}
+            {{ $registration_form_data->get('captain_city') }}
+        </dd>
+    </dl>
 
     <div class="row">
         <div class="col-md-6">
@@ -68,6 +67,23 @@
             ])
                 Pilotes
             @endcheckbox
+
+            CAPTAIN
+
+            @foreach ($registration_form_data->get('pilots') as $pilot)
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @lang('keys.' . $pilot['honorific_prefix'])
+                        {{ $pilot['first_name'] }}
+                        {{ $pilot['last_name'] }}
+                    </h5>
+
+                    Né@if($pilot['honorific_prefix'] == 'mme')e @endif
+                    le @human_date($pilot['birthday'])
+                </div>
+            </div>
+            @endforeach
         </div>
         <div class="col-md-6">
             @checkbox([

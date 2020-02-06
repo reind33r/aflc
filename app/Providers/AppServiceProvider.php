@@ -35,5 +35,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('human_date', function ($expression) {
             return "<?php require_once(app_path('Helpers/HumanDateFormat.php')); echo \App\Helpers\HumanDateFormat::format({$expression}); ?>";
         });
+
+        Blade::directive('phone', function ($expression) {
+            return "<?php require_once(app_path('Helpers/PhoneFormat.php')); echo \App\Helpers\PhoneFormat::format({$expression}); ?>";
+        });
     }
 }

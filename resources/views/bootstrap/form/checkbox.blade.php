@@ -2,7 +2,7 @@
     <div class="form-check">
         @isset($wrap_label_tag)<{{ $wrap_label_tag }}>@endisset
         
-        <input type="checkbox" name="{{ $name }}" id="{{ $name }}" {{ old($name, $initial ?? '') ? 'checked' : '' }}
+        <input type="checkbox" name="{{ $name }}" id="{{ $name }}" {{ old($name, $checked ?? false) ? 'checked' : '' }}
             class="form-check-input"
             @if($required ?? False) required @endif
         >

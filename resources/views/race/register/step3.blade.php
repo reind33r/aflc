@@ -24,7 +24,7 @@
     @enderror
 
     <div id="soapboxes" data-prototype="{!! htmlspecialchars(view('race.register._soapboxCard', ['index' => '__INDEX__'])) !!}" data-nextIndex="{{ max(array_keys(old('soapboxes', [1 => 1]))) + 1 }}">
-        @forelse(old('soapboxes', []) as $key => $soapbox)
+        @forelse(old('soapboxes', $registration_form_data->get('soapboxes')) as $key => $soapbox)
         @include('race.register._soapboxCard', ['index' => $key])
         @empty
         @include('race.register._soapboxCard', ['index' => 1])

@@ -2,6 +2,8 @@
 
 namespace App\Models\Race;
 
+use Carbon\Carbon;
+
 class RegistrationFormData {
     private $_userProgress = 1;
 
@@ -65,6 +67,14 @@ class RegistrationFormData {
             return;
         }
 
+        if($key == 'captain_mobile_phone') {
+            $value = str_replace([' ', '-', '.'], '', $value);
+        }
+
+        if(in_array($key, ['captain_first_name', 'captain_last_name'])) {
+            $value = mb_convert_case($value, MB_CASE_TITLE);
+        }
+
         $this->{$key} = $value;
     }
 
@@ -76,6 +86,10 @@ class RegistrationFormData {
         ) {
             throw new \Exception('RegistrationFormData: incorrect $pilot provided in addPilot(). Required keys are: first_name, last_name, birthday and honorific_prefix');
         }
+
+        $pilot['birthday'] = Carbon::createFromFormat('Y-m-d', $pilot['birthday']);
+        $pilot['first_name'] = mb_convert_case($pilot['first_name'], MB_CASE_TITLE);
+        $pilot['last_name'] = mb_convert_case($pilot['last_name'], MB_CASE_TITLE);
 
         $this->pilots[count($this->pilots) + 1] = $pilot;
     }
