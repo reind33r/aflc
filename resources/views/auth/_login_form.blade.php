@@ -19,10 +19,10 @@
     @endinput
 
     @checkbox([
-        'label' => 'Rester connecté',
         'name' => 'remember',
         'help_text' => 'Ne pas cocher cette case sur un ordinateur partagé.',
     ])
+    Rester connecté
     @endcheckbox
 
     <button type="submit" class="btn btn-primary">Connexion</button>
