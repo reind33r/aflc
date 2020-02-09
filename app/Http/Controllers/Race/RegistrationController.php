@@ -18,8 +18,8 @@ use App\Models\Race\RegistrationFormData;
 use App\Models\Race\Team;
 use App\Models\User;
 use App\Models\Race\Soapbox;
-use App\Models\Race\RegistrationPilot;
-use App\Models\Race\RegistrationSoapbox;
+use App\Models\Race\TeamPilot;
+use App\Models\Race\TeamSoapbox;
 
 class RegistrationController extends Controller
 {
@@ -124,14 +124,14 @@ class RegistrationController extends Controller
                     foreach($pilots as $pilot) {
                         $pilot->save();
 
-                        RegistrationPilot::create([
+                        TeamPilot::create([
                             'user_id' => $pilot->id,
                             'team_id' => $team->id,
                         ]);
                     }
 
                     if($registration_form_data->get('captain_is_pilot')) {
-                        RegistrationPilot::create([
+                        TeamPilot::create([
                             'user_id' => $captain->id,
                             'team_id' => $team->id,
                         ]);
@@ -140,7 +140,7 @@ class RegistrationController extends Controller
                     foreach($soapboxes as $soapbox) {
                         $soapbox->save();
 
-                        RegistrationSoapbox::create([
+                        TeamSoapbox::create([
                             'soapbox_id' => $soapbox->id,
                             'team_id' => $team->id,
                         ]);
@@ -150,16 +150,14 @@ class RegistrationController extends Controller
                 } catch(\Exception $e) {
                     throw $e;
                     DB::rollback();
-                    $error = True;
+                    
+                    flash('Une erreur s\'est produite. Si elle persiste, tu peux contacter le responsable du site (louis@hostux.fr).')->error();
+                    return redirect()->route('race.register.step4');
                 }
 
-                if(isset($error)) {
-                    flash('Une erreur s\'est produite. Si elle persiste, tu peux contacter le responsable du site (louis@hostux.fr).')->error();
-                    $response = redirect()->route('race.register.step4');
-                } else {
-                    flash('Ton inscription a bien été enregistrée. Nous t\'avons envoyé un e-mail pour expliquer la suite des opérations !')->success();
-                    $response = redirect()->route('index');
-                }
+                Session::forget('registration_form_data');
+                flash('Ton inscription a bien été enregistrée. Nous t\'avons envoyé un e-mail pour expliquer la suite des opérations !')->success();
+                return redirect()->route('index');
                 
                 break;
             

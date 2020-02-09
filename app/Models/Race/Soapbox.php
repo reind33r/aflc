@@ -16,6 +16,6 @@ class Soapbox extends Model {
     public function teams()
     {
         return $this->belongsToMany('App\Models\Race\Team')
-                    ->using('App\Models\Race\RegistrationSoapbox');
+                    ->using('App\Models\Race\TeamSoapbox');
     }
 }

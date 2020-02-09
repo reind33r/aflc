@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRegistrationPilotsTable extends Migration
+class CreateTeamPilotsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRegistrationPilotsTable extends Migration
      */
     public function up()
     {
-        Schema::create('registration_pilot', function (Blueprint $table) {
+        Schema::create('team_pilot', function (Blueprint $table) {
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('user_id');
 
@@ -36,6 +36,6 @@ class CreateRegistrationPilotsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('registration_pilot');
+        Schema::dropIfExists('team_pilot');
     }
 }

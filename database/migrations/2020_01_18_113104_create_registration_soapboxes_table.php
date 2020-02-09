@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRegistrationSoapboxesTable extends Migration
+class CreateTeamSoapboxesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRegistrationSoapboxesTable extends Migration
      */
     public function up()
     {
-        Schema::create('registration_soapbox', function (Blueprint $table) {
+        Schema::create('team_soapbox', function (Blueprint $table) {
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('soapbox_id');
 
@@ -28,6 +28,6 @@ class CreateRegistrationSoapboxesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('registration_soapbox');
+        Schema::dropIfExists('team_soapbox');
     }
 }

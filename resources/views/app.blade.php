@@ -47,12 +47,12 @@
             <nav class="nav d-flex justify-content-between">
                 <a href="{{ route('index') }}" class="p-2 text-muted">Accueil</a>
                 <a href="#" class="p-2 text-muted">Programme</a>
-                @guest
-                <a href="{{ route('race.register') }}" class="p-2 text-muted">Inscription</a>
+                @can('captain', $race)
+                <a href="{{ route('race.myregistration') }}" class="p-2 text-muted">Mon inscription</a>
                 @else
                 <a href="{{ route('race.register') }}" class="p-2 text-muted">Inscription</a>
-                <a href="#" class="p-2 text-muted">Mon inscription</a>
-                @endguest
+                @endcan
+                <a href="{{ route('race.registrations') }}" class="p-2 text-muted">Suivi des inscriptions</a>
                 <a href="#" class="p-2 text-muted">Règlement</a>
                 <a href="#" class="p-2 text-muted">Conseils de construction</a>
                 <a href="#" class="p-2 text-muted">Tancarville en Fête</a>

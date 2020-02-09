@@ -16,6 +16,6 @@ class Pilot extends Model {
     public function teams()
     {
         return $this->belongsToMany('App\Models\Race\Team')
-                    ->using('App\Models\Race\RegistrationPilot');
+                    ->using('App\Models\Race\TeamPilot');
     }
 }

@@ -25,14 +25,14 @@ class Team extends Model {
     /**
      * Get all pilots for the team
      */
-    public function pilots() {
-        return $this->hasManyThrough('App\Models\Race\Pilot', 'App\Models\Race\RegistrationPilot');
+    public function team_pilots() {
+        return $this->hasMany('App\Models\Race\TeamPilot');
     }
 
     /**
      * Get all soapboxes for the team
      */
-    public function soapboxes() {
-        return $this->hasManyThrough('App\Models\Race\Soapbox', 'App\Models\Race\RegistrationSoapbox');
+    public function team_soapboxes() {
+        return $this->hasMany('App\Models\Race\TeamSoapbox');
     }
 }
