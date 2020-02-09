@@ -15,6 +15,11 @@
     @csrf
     <input type="hidden" name="step" value="4">
 
+    <p>
+        Merci de vérifier que les informations entrées sont correctes, et de
+        cocher les cases correspondantes.
+    </p>
+
     @input([
         'name' => 'team_name',
         'required' => True,
@@ -68,7 +73,18 @@
                 Pilotes
             @endcheckbox
 
-            CAPTAIN
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @lang('keys.' . $registration_form_data->get('captain_honorific_prefix'))
+                        {{ $registration_form_data->get('captain_first_name') }}
+                        {{ $registration_form_data->get('captain_last_name') }}
+                    </h5>
+
+                    Né@if($registration_form_data->get('captain_honorific_prefix') == 'mme')e @endif
+                    le @human_date($registration_form_data->get('captain_birthday'))
+                </div>
+            </div>
 
             @foreach ($registration_form_data->get('pilots') as $pilot)
             <div class="card mb-2">
@@ -92,6 +108,18 @@
             ])
                 Caisses à savon
             @endcheckbox
+
+            @foreach ($registration_form_data->get('soapboxes') as $soapbox)
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ $soapbox['name'] }}
+                    </h5>
+
+                    Numéro de course désiré : {{ $soapbox['desired_number'] }}
+                </div>
+            </div>
+            @endforeach
         </div>
     </div>
 
@@ -105,7 +133,7 @@
     @endcheckbox
 
     <input type="submit" name="nextStep"
-           value="Valider l'inscription" class="btn btn-primary">
+           value="Suivant" class="btn btn-primary">
 
     <input type="submit" name="back"
            value="Retour" class="btn btn-secondary btn-sm">

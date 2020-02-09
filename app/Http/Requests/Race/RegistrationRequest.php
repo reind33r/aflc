@@ -60,6 +60,16 @@ class RegistrationRequest extends FormRequest
                     'soapboxes.*.desired_number' => 'nullable|digits:3',
                 ];
                 break;
+
+            case 4:
+                return $commonRules + [
+                    'team_name' => 'required|string|max:30',
+                    'captain_check' => 'required|in:on',
+                    'pilots_check' => 'required|in:on',
+                    'soapboxes_check' => 'required|in:on',
+                    'rgpd_check' => 'required|in:on',
+                ];
+                break;
             
             default:
                 return $commonRules;

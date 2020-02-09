@@ -75,6 +75,10 @@ class RegistrationFormData {
             $value = mb_convert_case($value, MB_CASE_TITLE);
         }
 
+        if($key == 'captain_birthday') {
+            $value = Carbon::createFromFormat('Y-m-d', $value);
+        }
+
         $this->{$key} = $value;
     }
 

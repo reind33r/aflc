@@ -17305,6 +17305,10 @@ h6 input[type=checkbox] {
   vertical-align: middle;
 }
 
+h3 .invalid-feedback {
+  font-size: 1rem;
+}
+
 /*
    * Footer
    */

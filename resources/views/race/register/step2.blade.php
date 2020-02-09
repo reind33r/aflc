@@ -32,7 +32,7 @@
                 'name' => 'captain_birthday',
                 'type' => 'date',
                 'required' => True,
-                'initial' => $registration_form_data->get('captain_birthday'),
+                'initial' => $registration_form_data->get('captain_birthday')->format('Y-m-d') ?? '',
             ])
             Date de naissance
             @endinput

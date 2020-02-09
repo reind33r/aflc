@@ -60,6 +60,12 @@ class RegistrationController extends Controller
                 
                 $response = redirect()->route('race.register.step4');
                 break;
+
+            case 4:
+                $registration_form_data->set('team_name', $validated['team_name']);
+                
+                $response = redirect()->route('race.register.step5');
+                break;
             
             default:
                 throw new \Exception('Erreur inattendue : la validation du numéro d\'étape n\'a pas fonctionné correctement (App\Http\Requests\Race\RegistrationRequest).');
@@ -138,6 +144,21 @@ class RegistrationController extends Controller
         }
 
         return view('race.register.step4', [
+            'registration_form_data' => $registration_form_data,
+        ]);
+    }
+
+    /**
+     * Step 4: payment
+     */
+    public function showStep5(Request $request) {
+        $registration_form_data = $this->_getRegistrationFormData();
+
+        if($registration_form_data->userProgress() < 5) {
+            return $this->_redirectUserProgressViolation();
+        }
+
+        return view('race.register.step5', [
             'registration_form_data' => $registration_form_data,
         ]);
     }
