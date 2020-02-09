@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 
+use App\Services\UsernameGenerator;
+
 class RegisterController extends Controller
 {
     /*
@@ -70,6 +72,7 @@ class RegisterController extends Controller
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'rgpd' => ['required', 'in:on'],
         ]);
     }
 
@@ -84,6 +87,7 @@ class RegisterController extends Controller
         return User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
+            'username' => UsernameGenerator::usernameFromName($data['first_name'], $data['last_name']),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

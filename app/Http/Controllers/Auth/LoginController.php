@@ -21,6 +21,8 @@ class LoginController extends Controller
     |
     */
 
+    protected $username;
+
     use AuthenticatesUsers {
         logout as _logout;
     }
@@ -54,6 +56,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->username = $this->findUsername();
     }
 
     /**
@@ -64,5 +67,20 @@ class LoginController extends Controller
         $this->_logout($request);
 
         return redirect(URL::previous());
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     */
+    public function findUsername() {
+        $login = request()->input('login');
+        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        request()->merge([$fieldType => $login]);
+        return $fieldType;
+    }
+
+    public function username() {
+        return $this->username;
     }
 }

@@ -116,7 +116,7 @@
                         {{ $soapbox['name'] }}
                     </h5>
 
-                    Numéro de course désiré : {{ $soapbox['desired_number'] }}
+                    Numéro de course désiré : {{ $soapbox['desired_number'] ?? 'Aucun' }}
                 </div>
             </div>
             @endforeach

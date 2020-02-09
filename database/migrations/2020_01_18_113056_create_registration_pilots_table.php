@@ -13,11 +13,19 @@ class CreateRegistrationPilotsTable extends Migration
      */
     public function up()
     {
-        Schema::create('registration_pilots', function (Blueprint $table) {
+        Schema::create('registration_pilot', function (Blueprint $table) {
             $table->unsignedBigInteger('team_id');
-            $table->unsignedBigInteger('pilot_id');
+            $table->unsignedBigInteger('user_id');
 
-            $table->primary(['team_id', 'pilot_id']);
+            $table->primary(['team_id', 'user_id']);
+            $table->foreign('team_id')
+                  ->references('id')->on('teams')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+            $table->foreign('user_id')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
         });
     }
 
@@ -28,6 +36,6 @@ class CreateRegistrationPilotsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('registration_pilots');
+        Schema::dropIfExists('registration_pilot');
     }
 }

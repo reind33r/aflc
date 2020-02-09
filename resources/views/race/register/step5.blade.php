@@ -33,7 +33,7 @@
             </tr>
             <tr>
                 <th>Pilotes</th>
-                <td>{{ count($registration_form_data->get('pilots')) }}</td>
+                <td>{{ (count($registration_form_data->get('pilots')) +  ($registration_form_data->get('captain_is_pilot') ? 1 : 0)) }}</td>
                 <td></td>
                 <td></td>
             </tr>

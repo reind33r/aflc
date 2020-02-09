@@ -1,14 +1,28 @@
 <form method="POST" action="{{ route('login') }}">
     @csrf
 
-    @input([
-        'name' => 'email',
-        'type' => 'email',
-        'autofocus' => True,
-        'autocomplete' => 'email',
-    ])
-    Adresse email
-    @endinput
+    <div class="form-group">
+        <label for="login">Nom d'utilisateur ou adresse email</label>
+        <input type="text" name="login" id="login" value="{{ old('username') ?: old('email') }}"
+            class="form-control @if($errors->has('username') or $errors->has('email')) is-invalid @endif"
+            required autofocus autocomplete="email"
+        >
+    
+        @error('username')
+        <div class="invalid-feedback">
+            <strong>{{ $message }}</strong>
+        </div>
+        @enderror
+        @error('email')
+        <div class="invalid-feedback">
+            <strong>{{ $message }}</strong>
+        </div>
+        @enderror
+
+        @isset($help_text)
+        <small class="form-text text-muted">{{ $help_text }}</small>
+        @endisset
+    </div>
 
     @input([
         'name' => 'password',

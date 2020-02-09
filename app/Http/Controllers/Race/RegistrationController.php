@@ -10,8 +10,16 @@ use App\Http\Requests\Race\RegistrationRequest;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+use App\Services\UsernameGenerator;
 
 use App\Models\Race\RegistrationFormData;
+use App\Models\Race\Team;
+use App\Models\User;
+use App\Models\Race\Soapbox;
+use App\Models\Race\RegistrationPilot;
+use App\Models\Race\RegistrationSoapbox;
 
 class RegistrationController extends Controller
 {
@@ -65,6 +73,94 @@ class RegistrationController extends Controller
                 $registration_form_data->set('team_name', $validated['team_name']);
                 
                 $response = redirect()->route('race.register.step5');
+                break;
+
+            case 5:
+                $captain = Auth::user();
+                $captain->honorific_prefix = $registration_form_data->get('captain_honorific_prefix');
+                $captain->first_name = $registration_form_data->get('captain_first_name');
+                $captain->last_name = $registration_form_data->get('captain_last_name');
+                // $captain->email = $registration_form_data->get('captain_email'); // TODO: verify uniqueness and unverify field email_is_verified
+                if($registration_form_data->get('captain_birthday')) {
+                    $captain->birthday = $registration_form_data->get('captain_birthday');
+                }
+
+                // TODO: Contact info update
+
+                $team = new Team;
+                $team->name = $registration_form_data->get('team_name');
+                $team->race_subdomain = $request->route('race')->subdomain;
+                $team->captain_id = $captain->id;
+
+                $pilots = [];
+                foreach($registration_form_data->get('pilots') as $pilot) {
+                    $user = new User;
+                    $user->honorific_prefix = $pilot['honorific_prefix'];
+                    $user->first_name = $pilot['first_name'];
+                    $user->last_name = $pilot['last_name'];
+                    $user->birthday = $pilot['birthday'];
+                    $user->username = UsernameGenerator::usernameFromName($user->first_name, $user->last_name);
+
+                    $pilots[] = $user;
+                }
+
+                $soapboxes = [];
+                foreach($registration_form_data->get('soapboxes') as $soapbox) {
+                    $m_soapbox = new Soapbox;
+                    $m_soapbox->name = $soapbox['name'];
+                    $m_soapbox->desired_number = $soapbox['desired_number'];
+
+                    $soapboxes[] = $m_soapbox;
+                }
+
+                try{
+                    DB::beginTransaction();
+                
+                    $captain->save();
+                    // Contact info save()
+
+                    $team->save();
+
+                    foreach($pilots as $pilot) {
+                        $pilot->save();
+
+                        RegistrationPilot::create([
+                            'user_id' => $pilot->id,
+                            'team_id' => $team->id,
+                        ]);
+                    }
+
+                    if($registration_form_data->get('captain_is_pilot')) {
+                        RegistrationPilot::create([
+                            'user_id' => $captain->id,
+                            'team_id' => $team->id,
+                        ]);
+                    }
+
+                    foreach($soapboxes as $soapbox) {
+                        $soapbox->save();
+
+                        RegistrationSoapbox::create([
+                            'soapbox_id' => $soapbox->id,
+                            'team_id' => $team->id,
+                        ]);
+                    }
+                
+                    DB::commit();
+                } catch(\Exception $e) {
+                    throw $e;
+                    DB::rollback();
+                    $error = True;
+                }
+
+                if(isset($error)) {
+                    flash('Une erreur s\'est produite. Si elle persiste, tu peux contacter le responsable du site (louis@hostux.fr).')->error();
+                    $response = redirect()->route('race.register.step4');
+                } else {
+                    flash('Ton inscription a bien été enregistrée. Nous t\'avons envoyé un e-mail pour expliquer la suite des opérations !')->success();
+                    $response = redirect()->route('index');
+                }
+                
                 break;
             
             default:

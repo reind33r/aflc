@@ -25,7 +25,7 @@ class RegistrationRequest extends FormRequest
      */
     public function rules()
     {
-        $commonRules = ['step' => 'required|in:1,2,3,4'];
+        $commonRules = ['step' => 'required|in:1,2,3,4,5'];
 
         switch ($this->input('step')) {
             case 1:

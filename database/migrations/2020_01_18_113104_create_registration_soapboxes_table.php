@@ -13,7 +13,7 @@ class CreateRegistrationSoapboxesTable extends Migration
      */
     public function up()
     {
-        Schema::create('registration_soapboxes', function (Blueprint $table) {
+        Schema::create('registration_soapbox', function (Blueprint $table) {
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('soapbox_id');
 
@@ -28,6 +28,6 @@ class CreateRegistrationSoapboxesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('registration_soapboxes');
+        Schema::dropIfExists('registration_soapbox');
     }
 }
