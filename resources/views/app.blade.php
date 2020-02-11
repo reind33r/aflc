@@ -12,10 +12,12 @@
         <header id="layout_header" class="py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-8 offset-2 text-center">
-                    <a class="header-logo text-dark" href="/">
-                        <img src="{{ asset('img/racing_flags.png') }}" alt="Drapeau de course" class="align-text-top">
-                        <span class="text-nowrap">{{ $race->name ?? 'À fond la caisse !' }}</span>
-                    </a>
+                    <span class="header-logo">
+                        @isset($race)<a href="/" class="text-dark">@endisset
+                            <img src="{{ asset('img/racing_flags.png') }}" alt="Drapeau de course" class="align-text-top">
+                            <span class="text-nowrap">{{ $race->name ?? 'À fond la caisse !' }}</span>
+                        @isset($race)</a>@endisset
+                    </span>
                     @isset($race)
                     <span class="d-block text-muted ">À {{ $race->location }}, le @human_date($race->date)</span>
                     @endisset
@@ -31,7 +33,13 @@
                             </button>
 
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a href="{{ route('auth.update_profile') }}" class="dropdown-item">Mon profil</a>
+                                @component('components.popup_link', [
+                                    'href' => route('auth.update_profile'),
+                                    'class' => 'dropdown-item',
+                                ])
+                                Mettre à jour mon profil
+                                @endcomponent
+
                                 <a href="" class="dropdown-item">Changer mon mot de passe</a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
@@ -80,5 +88,6 @@
     </footer>
 
     <script src="{{ mix('js/app.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>

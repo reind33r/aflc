@@ -32,7 +32,12 @@
         </p>
 
         <p>
-            <a href="{{ route('register') }}" class="btn btn-primary">Je crée mon compte en 1 minute</a>
+            @component('components.popup_link', [
+                'href' => route('register'),
+                'class' => 'btn btn-primary',
+            ])
+            Je crée mon compte en 1 minute
+            @endcomponent
         </p>
     </div>
 </div>

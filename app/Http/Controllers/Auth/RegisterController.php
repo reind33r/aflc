@@ -34,7 +34,8 @@ class RegisterController extends Controller
      * @var string
      */
     public function redirectTo() {
-        return Session::pull('previous_url', RouteServiceProvider::HOME);
+        // return Session::pull('previous_url', '/_closing');
+        return route('close_popup');
     }
 
     /**

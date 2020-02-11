@@ -9,6 +9,7 @@ use App\Http\Requests\Auth\UpdateProfileRequest;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 use App\Models\ContactInfo;
 
@@ -56,6 +57,6 @@ class UpdateProfileController extends Controller
 
         // Redirecting the user with a little message
         flash('Ton profil a été mis à jour avec succès.')->success();
-        return redirect()->route('auth.update_profile');
+        return redirect()->route('close_popup');
     }
 }

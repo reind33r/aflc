@@ -46,7 +46,12 @@ Mon équipe
 </dl>
 
 <p>
-    <a href="" class="btn btn-primary btn-sm">Mettre à jour</a>
+    @component('components.popup_link', [
+        'href' => route('auth.update_profile'),
+        'class' => 'btn btn-primary btn-sm',
+    ])
+    Mettre à jour
+    @endcomponent
 </p>
 
 <div class="row">
