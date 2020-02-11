@@ -59,6 +59,13 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get teams
      */
+    function teams_as_pilot() {
+        return $this->hasMany('App\Models\Race\TeamPilot');
+    }
+
+    /**
+     * Get contact info
+     */
     function contact_info() {
         return $this->belongsTo('App\Models\ContactInfo');
     }

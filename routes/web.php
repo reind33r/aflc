@@ -13,6 +13,9 @@
 
 Route::domain('root.'.env('APP_DOMAIN'))->group(function () {
     Auth::routes(['verify' => true]);
+
+    Route::middleware('auth')->get('/update_profile', 'Auth\UpdateProfileController@showForm')->name('auth.update_profile');
+    Route::middleware('auth')->post('/update_profile', 'Auth\UpdateProfileController@handleForm');
 });
 
 Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(function () {

@@ -88,9 +88,7 @@ class RegistrationController extends Controller
                 $captain->first_name = $registration_form_data->get('captain_first_name');
                 $captain->last_name = $registration_form_data->get('captain_last_name');
                 // $captain->email = $registration_form_data->get('captain_email'); // TODO: verify uniqueness and unverify field email_is_verified
-                if($registration_form_data->get('captain_birthday')) {
-                    $captain->birthday = $registration_form_data->get('captain_birthday');
-                }
+                $captain->birthday = $registration_form_data->get('captain_birthday');
 
                 $captain_contact_info = ($captain->contact_info()->exists()) ? $captain->contact_info : new ContactInfo;
 
@@ -162,10 +160,9 @@ class RegistrationController extends Controller
                 
                     DB::commit();
                 } catch(\Exception $e) {
-                    throw $e;
                     DB::rollback();
                     
-                    flash('Une erreur s\'est produite. Si elle persiste, tu peux contacter le responsable du site (louis@hostux.fr).')->error();
+                    flash('Une erreur inattendue s\'est produite (code 5001). Si elle persiste, tu peux contacter le responsable du site (louis@hostux.fr).')->error();
                     return redirect()->route('race.register.step4');
                 }
 

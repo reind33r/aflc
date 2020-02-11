@@ -30,7 +30,10 @@
                                 {{ Auth::user()->full_name }}
                             </button>
 
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="{{ route('auth.update_profile') }}" class="dropdown-item">Mon profil</a>
+                                <a href="" class="dropdown-item">Changer mon mot de passe</a>
+
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <button type="submit" class="dropdown-item">Déconnexion</button>
