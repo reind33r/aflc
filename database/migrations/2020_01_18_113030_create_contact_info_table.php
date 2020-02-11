@@ -31,6 +31,15 @@ class CreateContactInfoTable extends Migration
 
             $table->timestamps();
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('contact_info_id')->nullable();
+
+            $table->foreign('contact_info_id')
+                  ->references('id')->on('contact_info')
+                  ->onDelete('set null')
+                  ->onUpdate('cascade');
+        });
     }
 
     /**
@@ -41,5 +50,10 @@ class CreateContactInfoTable extends Migration
     public function down()
     {
         Schema::dropIfExists('contact_info');
+        
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('contact_info_id_foreign');
+            $table->dropColumn('contact_info_id');
+        });
     }
 }

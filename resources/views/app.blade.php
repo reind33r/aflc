@@ -48,7 +48,7 @@
                 <a href="{{ route('index') }}" class="p-2 text-muted">Accueil</a>
                 <a href="#" class="p-2 text-muted">Programme</a>
                 @can('captain', $race)
-                <a href="{{ route('race.myregistration') }}" class="p-2 text-muted">Mon inscription</a>
+                <a href="{{ route('race.myteam') }}" class="p-2 text-muted">Mon équipe</a>
                 @else
                 <a href="{{ route('race.register') }}" class="p-2 text-muted">Inscription</a>
                 @endcan

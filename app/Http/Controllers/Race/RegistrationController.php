@@ -11,15 +11,19 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 use App\Services\UsernameGenerator;
 
 use App\Models\Race\RegistrationFormData;
 use App\Models\Race\Team;
 use App\Models\User;
+use App\Models\ContactInfo;
 use App\Models\Race\Soapbox;
 use App\Models\Race\TeamPilot;
 use App\Models\Race\TeamSoapbox;
+
+use App\Mail\Race\RegistrationSuccess;
 
 class RegistrationController extends Controller
 {
@@ -76,6 +80,9 @@ class RegistrationController extends Controller
                 break;
 
             case 5:
+                $race = $request->route('race');
+
+                // Creating models from RegistrationFormData
                 $captain = Auth::user();
                 $captain->honorific_prefix = $registration_form_data->get('captain_honorific_prefix');
                 $captain->first_name = $registration_form_data->get('captain_first_name');
@@ -85,11 +92,16 @@ class RegistrationController extends Controller
                     $captain->birthday = $registration_form_data->get('captain_birthday');
                 }
 
-                // TODO: Contact info update
+                $captain_contact_info = ($captain->contact_info()->exists()) ? $captain->contact_info : new ContactInfo;
+
+                $captain_contact_info->mobile_phone = $registration_form_data->get('captain_mobile_phone');
+                $captain_contact_info->address = $registration_form_data->get('captain_address');
+                $captain_contact_info->zip_code = $registration_form_data->get('captain_zip_code');
+                $captain_contact_info->city = $registration_form_data->get('captain_city');
 
                 $team = new Team;
                 $team->name = $registration_form_data->get('team_name');
-                $team->race_subdomain = $request->route('race')->subdomain;
+                $team->race_subdomain = $race->subdomain;
                 $team->captain_id = $captain->id;
 
                 $pilots = [];
@@ -113,11 +125,13 @@ class RegistrationController extends Controller
                     $soapboxes[] = $m_soapbox;
                 }
 
+                // Saving models to database
                 try{
                     DB::beginTransaction();
                 
+                    $captain_contact_info->save();
+                    $captain->contact_info_id = $captain_contact_info->id;
                     $captain->save();
-                    // Contact info save()
 
                     $team->save();
 
@@ -155,7 +169,14 @@ class RegistrationController extends Controller
                     return redirect()->route('race.register.step4');
                 }
 
+                // Sending email
+                Mail::to($captain)
+                    ->send(new RegistrationSuccess($captain, $race));
+
+                // Forgetting the form data
                 Session::forget('registration_form_data');
+
+                // Redirecting the user with a little message
                 flash('Ton inscription a bien été enregistrée. Nous t\'avons envoyé un e-mail pour expliquer la suite des opérations !')->success();
                 return redirect()->route('index');
                 

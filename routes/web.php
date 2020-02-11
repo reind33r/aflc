@@ -33,7 +33,7 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
     });
 
     Route::middleware('can:captain,race')->group(function() {
-        Route::get('/my_registration', 'Race\MyRegistrationController@showOverview')->name('race.myregistration');
+        Route::get('/my_team', 'Race\MyTeamController@showOverview')->name('race.myteam');
     });
 });
 

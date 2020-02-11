@@ -35,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birthday' => 'date',
     ];
 
 
@@ -53,5 +54,12 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     function teams() {
         return $this->hasMany('App\Models\Race\Team', 'captain_id');
+    }
+
+    /**
+     * Get teams
+     */
+    function contact_info() {
+        return $this->belongsTo('App\Models\ContactInfo');
     }
 }

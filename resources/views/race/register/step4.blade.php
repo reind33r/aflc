@@ -73,6 +73,7 @@
                 Pilotes
             @endcheckbox
 
+            @if($registration_form_data->get('captain_is_pilot'))
             <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">
@@ -85,6 +86,7 @@
                     le @human_date($registration_form_data->get('captain_birthday'))
                 </div>
             </div>
+            @endif
 
             @foreach ($registration_form_data->get('pilots') as $pilot)
             <div class="card mb-2">
