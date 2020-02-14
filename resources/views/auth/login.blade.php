@@ -9,7 +9,12 @@
     </div>
     <div class="col-md-6 col-lg-8">
         <p>
-            Si tu n'as pas encore de compte, tu peux <a href="{{ route('register') }}">t'inscrire</a>.
+            Si tu n'as pas encore de compte, tu peux
+            @component('components.popup_link', [
+                'href' => route('register'),
+                'slot' => 't\'inscrire'
+            ])
+            t'inscrire @endcomponent en 1 minute.
         </p>
         @if(session()->has('previous_url'))
         <p>

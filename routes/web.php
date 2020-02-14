@@ -42,6 +42,9 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
     Route::middleware('can:captain,race')->group(function() {
         Route::get('/my_team', 'Race\MyTeamController@showOverview')->name('race.myteam');
     });
+
+    // CMS
+    Route::get('/{uri}', 'CMS\PageController@show')->name('cms.page');
 });
 
 // Route::get('/home', 'HomeController@index')->name('home');

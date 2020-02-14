@@ -13,7 +13,7 @@
         </p>
         @if(session()->has('previous_url'))
         <p>
-            <a href="{{ session()->get('previous_url') }}" class="btn btn-sm btn-secondary">Retour</a>
+            <a href="{{--{{ session()->get('previous_url') }}--}}#" class="btn btn-sm btn-secondary" onclick="window.close();">Retour</a>
         </p>
         @endif
     </div>

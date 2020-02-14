@@ -17309,6 +17309,11 @@ h3 .invalid-feedback {
   font-size: 1rem;
 }
 
+blockquote {
+  padding-left: 1em;
+  border-left: 0.3em solid #e5e5e5;
+}
+
 /*
    * Footer
    */

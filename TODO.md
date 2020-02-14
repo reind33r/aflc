@@ -18,6 +18,8 @@ Envoyer un email
 
 Back button
 
+TeamPilot / TeamSoapbox ---> updates parent timestamps
+
 ## Organizer
 
 In registration mail, add contact info
@@ -29,3 +31,7 @@ En anglais ? :o
 ## Users
 
 Password reset
+
+# CMS
+
+Use editor.md as wysiwyg editor?
