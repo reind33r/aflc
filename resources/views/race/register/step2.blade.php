@@ -64,7 +64,6 @@
     <input type="submit" name="nextStep"
            value="Suivant" class="btn btn-primary">
 
-    <input type="submit" name="back"
-           value="Retour" class="btn btn-secondary btn-sm">
+    <a href="{{ route('race.register.step1') }}" class="btn btn-secondary btn-sm">Retour</a>
 </form>
 @endsection

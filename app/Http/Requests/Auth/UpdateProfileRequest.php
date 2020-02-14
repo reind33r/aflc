@@ -4,6 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Illuminate\Validation\Rule;
 use App\Rules\MobilePhone;
 
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,11 @@ class UpdateProfileRequest extends FormRequest
             'honorific_prefix' => 'required|in:m,mme,autre',
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
-            'email' => 'required|email',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore(Auth::user())
+            ],
 
             'birthday' => 'date|nullable',
             'mobile_phone' => ['nullable', new MobilePhone],

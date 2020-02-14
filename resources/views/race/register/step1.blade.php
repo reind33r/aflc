@@ -165,9 +165,6 @@
 
     <input type="submit" name="nextStep"
            value="Suivant" class="btn btn-primary">
-
-    <input type="submit" name="back"
-           value="Retour" class="btn btn-secondary btn-sm">
 </form>
 @endguest
 @endsection

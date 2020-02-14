@@ -4,7 +4,10 @@ namespace App\Http\Requests\Race;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Illuminate\Validation\Rule;
 use App\Rules\MobilePhone;
+
+use Illuminate\Support\Facades\Auth;
 
 class RegistrationRequest extends FormRequest
 {
@@ -33,7 +36,11 @@ class RegistrationRequest extends FormRequest
                     'honorific_prefix' => 'required|in:m,mme,autre',
                     'first_name' => 'required|string|max:100',
                     'last_name' => 'required|string|max:100',
-                    'email' => 'required|email',
+                    'email' => [
+                        'required',
+                        'email',
+                        Rule::unique('users')->ignore(Auth::user())
+                    ],
                     'mobile_phone' => ['required', new MobilePhone],
                     'address' => 'required|string',
                     'zip_code' => 'required|string|size:5',

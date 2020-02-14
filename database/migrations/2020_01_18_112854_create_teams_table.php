@@ -27,6 +27,11 @@ class CreateTeamsTable extends Migration
                   ->references('subdomain')->on('races')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
+
+            $table->foreign('captain_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
