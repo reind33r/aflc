@@ -6,9 +6,10 @@
     <title>@yield('title')</title>
 
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    @stack('styles')
 </head>
 <body>
-    <div class="container">
+    <div class="container mb-2">
         <header id="layout_header" class="py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-8 offset-2 text-center">
@@ -24,39 +25,68 @@
                 </div>
                 {{-- LIENS AUTHENTIFICATION --}}
                 <div class="col-2 d-flex justify-content-end align-items-center">
-                    @guest
-                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('login') }}">Connexion</a>
-                    @else
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
-                                {{ Auth::user()->full_name }}
-                            </button>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                @component('components.popup_link', [
-                                    'href' => route('auth.update_profile'),
-                                    'class' => 'dropdown-item',
-                                ])
-                                Mettre à jour mon profil
-                                @endcomponent
-
-                                <a href="" class="dropdown-item">Changer mon mot de passe</a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">Déconnexion</button>
-                                </form>
-                            </div>
-                        </div>
+                    @guest('web')
+                    @guest('web:organizers')
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('login') }}">Connexion</a>
                     @endguest
+                    @endguest
+
+                    @auth('web')
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
+                            {{ Auth::user()->full_name }}
+                        </button>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            @component('components.popup_link', [
+                                'href' => route('auth.update_profile'),
+                                'class' => 'dropdown-item',
+                            ])
+                            Mettre à jour mon profil
+                            @endcomponent
+
+                            <a href="" class="dropdown-item">Changer mon mot de passe</a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item">Déconnexion</button>
+                            </form>
+                        </div>
+                    </div>
+                    @endauth
+
+                    @auth('web:organizers')
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-toggle="dropdown">
+                            {{ Auth::guard('web:organizers')->user()->name }}
+                        </button>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            @component('components.popup_link', [
+                                'href' => route('auth.update_profile'),
+                                'class' => 'dropdown-item',
+                            ])
+                            Mettre à jour mon profil
+                            @endcomponent
+
+                            <a href="" class="dropdown-item">Changer mon mot de passe</a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="guard" value="organizer">
+                                <button type="submit" class="dropdown-item">Déconnexion</button>
+                            </form>
+                        </div>
+                    </div>
+                    @endauth
                 </div>
             </div>
         </header>
 
         @isset($race)
-        <div class="nav-scroller py-1 mb-2">
+        <div class="nav-scroller py-1">
             <nav class="nav d-flex justify-content-between">
-                <a href="{{ route('index') }}" class="p-2 text-muted">Accueil</a>
+                <a href="/" class="p-2 text-muted">Accueil</a>
                 <a href="#" class="p-2 text-muted">Programme</a>
                 @can('captain', $race)
                 <a href="{{ route('race.myteam') }}" class="p-2 text-muted">Mon équipe</a>

@@ -62,6 +62,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'race_subdomain' => \App\Http\Middleware\RaceSubdomain::class,
+        'use_organizer_guard' => \App\Http\Middleware\UseOrganizerGuard::class,
     ];
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Session;
 
@@ -37,6 +38,18 @@ class LoginController extends Controller
     }
 
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:web:organizers')->except('logout');
+        $this->username = $this->findUsername();
+    }
+
+    /**
      * Sets the previous URL in session if it doesn't exist
      */
     public function showLoginForm()
@@ -48,15 +61,9 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function showOrganizerLoginForm()
     {
-        $this->middleware('guest')->except('logout');
-        $this->username = $this->findUsername();
+        return view('auth.login_organizer');
     }
 
     /**
@@ -74,6 +81,10 @@ class LoginController extends Controller
      *
      */
     public function findUsername() {
+        if(request()->has('email')) {
+            return 'email';
+        }
+
         $login = request()->input('login');
         $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         request()->merge([$fieldType => $login]);
@@ -82,5 +93,17 @@ class LoginController extends Controller
 
     public function username() {
         return $this->username;
+    }
+
+
+    protected function guard() {
+        switch(request()->input('guard')) {
+            case 'organizer':
+                return Auth::guard('web:organizers');
+            break;
+            default:
+                return Auth::guard();
+            break;
+        }
     }
 }

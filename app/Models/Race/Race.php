@@ -29,6 +29,13 @@ class Race extends Model {
     }
 
     /**
+     * Get organizer
+     */
+    public function organizer() {
+        return $this->belongsTo('App\Models\Organizer');
+    }
+
+    /**
      * Get teams
      */
     function teams() {

@@ -1,0 +1,24 @@
+@extends('app')
+
+@section('title')
+Organisation de la course
+@endsection
+
+@section('content')
+<h1>Organisation de la course</h1>
+
+<p>
+    Choisis l'espace auquel tu souhaites accéder :
+</p>
+
+<nav class="row justify-content-around align-items-center">
+    <a href="" class="btn btn-warning btn-lg">
+        Inscriptions<br>
+        <small>Dossiers et paiements</small>
+    </a>
+    <a href="" class="btn btn-success btn-lg">
+        Gestion du site<br>
+        <small>Pages et menus</small>
+    </a>
+</nav>
+@endsection

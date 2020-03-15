@@ -17,6 +17,7 @@
         "rap2hpoutre/convert-accent-characters": "^0.2.0"
     },
     "require-dev": {
+        "doctrine/dbal": "^2.10",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
         "laravel/ui": "^1.1",

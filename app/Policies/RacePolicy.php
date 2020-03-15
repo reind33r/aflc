@@ -3,8 +3,11 @@
 namespace App\Policies;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\User;
+use App\Models\Organizer;
 use App\Models\Race\Race;
 use App\Models\Race\Team;
 
@@ -17,24 +20,39 @@ class RacePolicy
      *  - is an user captain in a race
      */
 
-    public function captain(User $user, Race $race) {
+    public function captain(Authenticatable $user, Race $race) {
+        if(!$user instanceof User) {
+            return false;
+        }
+
         return Team::where('captain_id', $user->id)
                    ->where('race_subdomain', $race->subdomain)
                    ->exists();
     }
 
-    public function register(?User $user, Race $race) {
+    public function register(?Authenticatable $user, Race $race) {
         if(!$user) {
             return True;
+        }
+
+        if(!$user instanceof User) {
+            return false;
         }
 
         return !$this->captain($user, $race);
     }
 
+    /**
+     * Dealing with organization
+     */
 
-    // /**
-    //  * Dealing with organization
-    //  */
+    public function organize(Authenticatable $organizer, Race $race) {
+        if(!$organizer instanceof Organizer) {
+            return false;
+        }
+
+        return ($race->organizer_id === $organizer->id);
+    }
 
     // public function organize(User $user, Race $race) {
     //     return $user->admin or $this->_isUserOrganizer($user, $race);

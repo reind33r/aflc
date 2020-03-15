@@ -15,7 +15,7 @@ class CreateCMSPagesTable extends Migration
     {
         Schema::create('cms_pages', function (Blueprint $table) {
             $table->string('race_subdomain');
-            $table->string('uri');
+            $table->string('uri')->default('');
 
             $table->string('title');
             $table->longText('content');

@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'web:organizers' => [
+            'driver' => 'session',
+            'provider' => 'organizers',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -69,6 +74,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'organizers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Organizer::class,
         ],
 
         // 'users' => [
