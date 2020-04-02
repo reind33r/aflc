@@ -49,22 +49,15 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
 
         // CMS
         Route::prefix('/cms')->middleware('use_organizer_guard', 'can:organize,race')->group(function() {
+            Route::get('/', 'CMS\OrganizerController@overview')->name('cms.organizer');
+
             Route::get('/{uri?}', 'CMS\PageController@showEditForm')->name('cms.page.edit'); // Needs to be last in subgroup!
             Route::post('/{uri?}', 'CMS\PageController@edit')->name('cms.page.edit'); // Needs to be last in subgroup!
         });
     });
 
     // Site pages
-    // Route::get('/', function () {
-    //     return view('cms.page');
-    // })->name('index');
     Route::get('/registrations', 'Race\RegistrationsController@showRegistrations')->name('race.registrations');
 
     Route::get('{uri?}', 'CMS\PageController@show')->name('cms.page'); // Needs to be last!
 });
-
-// Route::get('/home', 'HomeController@index')->name('home');
-
-// Route::get('{any?}', function () {
-//     return redirect('https://onrevientbientot.a-fond-la-caisse.com');
-// });

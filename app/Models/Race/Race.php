@@ -41,4 +41,11 @@ class Race extends Model {
     function teams() {
         return $this->hasMany('App\Models\Race\Team', 'race_subdomain', 'subdomain');
     }
+
+    /**
+     * Get menu items
+     */
+    function menuItems() {
+        return $this->hasMany('App\Models\CMS\MenuItem', 'race_subdomain', 'subdomain')->orderBy('order', 'asc');
+    }
 }

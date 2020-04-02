@@ -28,6 +28,6 @@ Verify
 
 Password reset
 
-# CMS
+## CMS
 
-Use editor.md as wysiwyg editor?
+Summernote upload?

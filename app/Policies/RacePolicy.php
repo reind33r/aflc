@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Organizer;
 use App\Models\Race\Race;
 use App\Models\Race\Team;
+use App\Models\Race\TeamPilot;
 
 class RacePolicy
 {
@@ -30,6 +31,22 @@ class RacePolicy
                    ->exists();
     }
 
+    public function pilot(Authenticatable $user, Race $race) {
+        if(!$user instanceof User) {
+            return false;
+        }
+
+        return TeamPilot::where('user_id', $user->id)
+                   ->whereHas('team', function($q) use($race) {
+                       $q->where('race_subdomain', $race->subdomain);
+                   })
+                   ->exists();
+    }
+
+    public function registered(Authenticatable $user, Race $race) {
+        return $this->captain($user, $race) || $this->pilot($user, $race);
+    }
+
     public function register(?Authenticatable $user, Race $race) {
         if(!$user) {
             return True;
@@ -39,7 +56,7 @@ class RacePolicy
             return false;
         }
 
-        return !$this->captain($user, $race);
+        return !$this->registered($user, $race);
     }
 
     /**

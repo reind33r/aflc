@@ -14,4 +14,9 @@ class TeamPilot extends Pivot {
     {
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
+
+    public function team()
+    {
+        return $this->belongsTo('App\Models\Race\Team', 'team_id', 'id');
+    }
 }

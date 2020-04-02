@@ -83,23 +83,13 @@
             </div>
         </header>
 
-        @isset($race)
+        @if(isset($race) && $race->menuItems)
         <div class="nav-scroller py-1">
-            <nav class="nav d-flex justify-content-between">
-                <a href="/" class="p-2 text-muted">Accueil</a>
-                <a href="#" class="p-2 text-muted">Programme</a>
-                @can('captain', $race)
-                <a href="{{ route('race.myteam') }}" class="p-2 text-muted">Mon équipe</a>
-                @else
-                <a href="{{ route('race.register') }}" class="p-2 text-muted">Inscription</a>
-                @endcan
-                <a href="{{ route('race.registrations') }}" class="p-2 text-muted">Suivi des inscriptions</a>
-                <a href="#" class="p-2 text-muted">Règlement</a>
-                <a href="#" class="p-2 text-muted">Conseils de construction</a>
-                <a href="#" class="p-2 text-muted">Tancarville en Fête</a>
+            <nav class="nav d-flex justify-content-center">
+                @include('cms._menu')
             </nav>
         </div>
-        @endisset
+        @endif
     </div>
 
     <main class="container">

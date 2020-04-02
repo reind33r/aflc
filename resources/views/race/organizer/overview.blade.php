@@ -16,7 +16,7 @@ Organisation de la course
         Inscriptions<br>
         <small>Dossiers et paiements</small>
     </a>
-    <a href="" class="btn btn-success btn-lg">
+    <a href="{{ route('cms.organizer') }}" class="btn btn-success btn-lg">
         Gestion du site<br>
         <small>Pages et menus</small>
     </a>
