@@ -26,12 +26,18 @@ class PageController extends Controller
         }
 
         if(
-            ($page->visibility == 'race_registered' && (!Auth::user() || Auth::user()->cannot('registered', $race)))
-            ||
-            ($page->visibility == 'race_not_registered' && (Auth::user() && Auth::user()->cannot('not_registered', $race)))
-            ||
-            ($page->visibility == 'race_organizer' && (!Auth::guard('web:organizers')->user() || Auth::guard('web:organizers')->user()->cannot('organize', $race)))
-        ) {
+            (!Auth::guard('web:organizers')->user() || Auth::guard('web:organizers')->user()->cannot('organize', $race))
+            
+            &&
+
+            (
+                ($page->visibility == 'race_registered' && (!Auth::user() || Auth::user()->cannot('registered', $race)))
+                ||
+                ($page->visibility == 'race_not_registered' && (Auth::user() && Auth::user()->cannot('not_registered', $race)))
+                ||
+                ($page->visibility == 'race_organizer')
+            )
+        ) {            
             abort(403);
         }
 

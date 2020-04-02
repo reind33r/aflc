@@ -60,7 +60,11 @@ Gestion du site
             (visiteur, inscrit à la course ou pas, organisateur).
         </p>
 
-        <table class="table table-bordered table-striped">
+        <p>
+            <a href="{{ route('cms.menu.edit') }}" class="btn btn-primary">Modifier le menu</a>
+        </p>
+
+        {{-- <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>Nom</th>
@@ -85,7 +89,7 @@ Gestion du site
                 </tr>
                 @endforelse
             </tbody>
-        </table>
+        </table> --}}
     </div>
 </div>
 @endsection

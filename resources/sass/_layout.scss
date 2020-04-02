@@ -162,3 +162,7 @@ blockquote {
 #layout_footer p:last-child {
     margin-bottom: 0;
 }
+
+.draggedOver{
+    background: $yellow !important;
+}

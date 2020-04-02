@@ -5,7 +5,10 @@ namespace App\Models\CMS;
 use Illuminate\Database\Eloquent\Model;
 
 class MenuItem extends Model {
-    private $internal_links = [
+    public $timestamps = False;
+
+
+    public static $internal_links = [
         'race.register' => [
             'route' => 'race.register',
             'visibility' => 'race_not_registered',
@@ -56,10 +59,10 @@ class MenuItem extends Model {
 
             return $page['visibility'];
         } else if($this->internal_link !== null) {
-            return $this->internal_links[$this->internal_link]['visibility'];
+            return MenuItem::$internal_links[$this->internal_link]['visibility'];
         }
         else {
-            return $this->external_link;
+            return $value;
         }
     }
 
@@ -74,7 +77,7 @@ class MenuItem extends Model {
         if($this->cms_page_uri !== null) {
             return route('cms.page', ['race' => $this->race_subdomain, 'uri' => $this->cms_page_uri]);
         } else if($this->internal_link !== null) {
-            return route($this->internal_links[$this->internal_link]['route']);
+            return route(MenuItem::$internal_links[$this->internal_link]['route']);
         }
         else {
             return $this->external_link;
@@ -95,7 +98,7 @@ class MenuItem extends Model {
 
             return $page['title'].' [/'.$this->cms_page_uri.']';
         } else if($this->internal_link !== null) {
-            return $this->internal_links[$this->internal_link]['name'] . ' ['. route($this->internal_links[$this->internal_link]['route'], [], false) .']';
+            return MenuItem::$internal_links[$this->internal_link]['name'];// . ' ['. route(MenuItem::$internal_links[$this->internal_link]['route'], [], false) .']';
         } else {
             return '['.$this->external_link.']';
         }

@@ -51,8 +51,11 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
         Route::prefix('/cms')->middleware('use_organizer_guard', 'can:organize,race')->group(function() {
             Route::get('/', 'CMS\OrganizerController@overview')->name('cms.organizer');
 
-            Route::get('/{uri?}', 'CMS\PageController@showEditForm')->name('cms.page.edit'); // Needs to be last in subgroup!
-            Route::post('/{uri?}', 'CMS\PageController@edit')->name('cms.page.edit'); // Needs to be last in subgroup!
+            Route::get('/menu', 'CMS\MenuController@showEditForm')->name('cms.menu.edit');
+            Route::post('/menu', 'CMS\MenuController@edit')->name('cms.menu.edit');
+
+            Route::get('/page/{uri?}', 'CMS\PageController@showEditForm')->name('cms.page.edit'); // Needs to be last in subgroup!
+            Route::post('/page/{uri?}', 'CMS\PageController@edit')->name('cms.page.edit'); // Needs to be last in subgroup!
         });
     });
 

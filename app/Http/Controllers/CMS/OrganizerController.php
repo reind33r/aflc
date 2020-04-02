@@ -17,13 +17,13 @@ class OrganizerController extends Controller
             ->get();
         
 
-        $menu_items = MenuItem::where('race_subdomain', $request->route('race')->subdomain)
-            ->orderBy('order', 'asc')
-            ->get();
+        // $menu_items = MenuItem::where('race_subdomain', $request->route('race')->subdomain)
+        //     ->orderBy('order', 'asc')
+        //     ->get();
 
         return view('cms.organizer.overview', [
             'pages' => $pages,
-            'menu_items' => $menu_items,
+            // 'menu_items' => $menu_items,
         ]);
     }
 }

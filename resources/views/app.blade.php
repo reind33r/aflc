@@ -71,6 +71,8 @@
 
                             <a href="" class="dropdown-item">Changer mon mot de passe</a>
 
+                            @isset($race)<a href="{{ route('race.organizer') }}" class="dropdown-item">Accéder à l'espace organisateur</a>@endif
+
                             <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="guard" value="organizer">
