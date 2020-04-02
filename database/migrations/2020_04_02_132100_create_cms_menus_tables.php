@@ -41,7 +41,7 @@ class CreateCMSMenusTables extends Migration
                 'race_registered',
                 'race_not_registered',
                 'race_organizer'
-            ]);
+            ])->nullable();
             $table->unsignedTinyInteger('order')->default(0);
 
             $table->foreign('race_subdomain')

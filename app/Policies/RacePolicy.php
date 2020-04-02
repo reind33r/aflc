@@ -47,6 +47,14 @@ class RacePolicy
         return $this->captain($user, $race) || $this->pilot($user, $race);
     }
 
+    public function not_registered(?Authenticatable $user, Race $race) {
+        if(!$user) {
+            return True;
+        }
+
+        return !$this->registered($user, $race);
+    }
+
     public function register(?Authenticatable $user, Race $race) {
         if(!$user) {
             return True;

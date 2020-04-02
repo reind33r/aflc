@@ -17,6 +17,12 @@ class CreateCMSPagesTable extends Migration
             $table->string('race_subdomain');
             $table->string('uri')->default('');
 
+            $table->enum('visibility', [
+                'all',
+                'race_registered',
+                'race_not_registered',
+                'race_organizer'
+            ]);
             $table->string('title');
             $table->longText('content');
 

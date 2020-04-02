@@ -6,9 +6,9 @@
     ||
     ($item->visibility == 'race_registered' && Auth::user() && Auth::user()->can('registered', $race))
     ||
-    ($item->visibility == 'race_not_registered' && (!Auth::user() || !Auth::user()->can('registered', $race)))
+    ($item->visibility == 'race_not_registered' && (!Auth::user() || Auth::user()->can('not_registered', $race)))
     ||
-    ($item->visibility == 'race_organizer' && Auth::user() && Auth::user()->can('organize', $race))
+    ($item->visibility == 'race_organizer' && Auth::guard('web:organizers')->user() && Auth::guard('web:organizers')->user()->can('organize', $race))
 )
 <a class="p-2 mx-2 text-muted" href="{{ $item->url }}">{{ $item->name }}</a>
 @endif

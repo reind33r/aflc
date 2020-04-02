@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CMS\PageRequest;
@@ -12,14 +13,26 @@ use App\Models\CMS\Page;
 class PageController extends Controller
 {
     public function show(Request $request) {
+        $race = $request->route('race');
+
         $page = Page::where('uri', $request->route('uri', ''))
-                    ->where('race_subdomain', $request->route('race')->subdomain)
+                    ->where('race_subdomain', $race->subdomain)
                     ->first();
         
         if(!$page) {
             return view('cms.pages.404', [
                 'uri' => $request->route('uri')
             ]);
+        }
+
+        if(
+            ($page->visibility == 'race_registered' && (!Auth::user() || Auth::user()->cannot('registered', $race)))
+            ||
+            ($page->visibility == 'race_not_registered' && (Auth::user() && Auth::user()->cannot('not_registered', $race)))
+            ||
+            ($page->visibility == 'race_organizer' && (!Auth::guard('web:organizers')->user() || Auth::guard('web:organizers')->user()->cannot('organize', $race)))
+        ) {
+            abort(403);
         }
 
         return view('cms.pages.show', [
@@ -45,8 +58,9 @@ class PageController extends Controller
             'uri' => $request->route('uri', ''),
             'race_subdomain' => $request->route('race')->subdomain,
         ]);
-        $page->content = $request->input('content');
-        $page->title = $request->input('title');
+        $page->content = $validated['content'];
+        $page->title = $validated['title'];
+        $page->visibility = $validated['visibility'];
         $page->save();
 
         flash('La page a été sauvegardée.')->success();

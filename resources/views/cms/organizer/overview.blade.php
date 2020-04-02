@@ -25,6 +25,7 @@ Gestion du site
                 <tr>
                     <th>Adresse</th>
                     <th>Titre</th>
+                    <th>Visible pour</th>
                     <th class="text-center"><i class="far fa-trash-alt"></i></th>
                 </tr>
             </thead>
@@ -35,13 +36,16 @@ Gestion du site
                         <a href="{{ route('cms.page', ['uri' => $page->uri]) }}" target="_blank">/{{ $page->uri }}</a>
                     </td>
                     <td>{{ $page->title }}</td>
+                    <td>
+                        @lang('keys.'. $page->visibility)
+                    </td>
                     <td class="text-center">
                         <a href="" class="btn btn-sm btn-link text-danger"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="3"><em>Tu n'as pas encore commencé le site.</em></td>
+                    <td colspan="4"><em>Tu n'as pas encore commencé le site.</em></td>
                 </tr>
                 @endforelse
             </tbody>

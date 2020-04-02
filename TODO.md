@@ -30,4 +30,5 @@ Password reset
 
 ## CMS
 
-Summernote upload?
+* Summernote upload?
+* check visibility on pages

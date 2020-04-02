@@ -13,17 +13,6 @@
     <div class="row">
         <div class="col-md">
             @input([
-                'name' => 'title',
-                'type' => 'text',
-                'required' => True,
-                'initial' => $page->title,
-                'help_text' => 'Il s\'agit du titre qui s\'affichera dans l\'onglet du navigateur',
-            ])
-            Titre
-            @endinput
-        </div>
-        <div class="col-md">
-            @input([
                 'name' => 'url',
                 'type' => 'text',
                 'required' => False,
@@ -34,7 +23,32 @@
             Adresse de la page
             @endinput
         </div>
+        <div class="col-md">
+            @select([
+                'name' => 'visibility',
+                'required' => True,
+                'initial' => $page->visibility,
+                'options' => [
+                    'all' => __('keys.all'),
+                    'race_registered' => __('keys.race_registered'),
+                    'race_not_registered' => __('keys.race_not_registered'),
+                    'race_organizer' => __('keys.race_organizer'),
+                ],
+            ])
+            Visible pour
+            @endselect
+        </div>
     </div>
+
+    @input([
+        'name' => 'title',
+        'type' => 'text',
+        'required' => True,
+        'initial' => $page->title,
+        'help_text' => 'Il s\'agit du titre qui s\'affichera dans l\'onglet du navigateur',
+    ])
+    Titre
+    @endinput
 
     @textarea([
         'name' => 'content',

@@ -25,6 +25,7 @@ class PageRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:40',
+            'visibility' => 'required|string|in:all,race_registered,race_not_registered,race_organizer',
             'content' => 'required|string',
         ];
     }
