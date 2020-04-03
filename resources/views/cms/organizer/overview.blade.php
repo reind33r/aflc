@@ -92,4 +92,26 @@ Gestion du site
         </table> --}}
     </div>
 </div>
+<div class="row">
+    <div class="col-md">
+        <h2>Gestionnaire d'images</h2>
+
+        <div class="row">
+            @foreach ($images as $image)
+            <div style="max-width: 15em;">
+                <div class="card">
+                    <div class="card-body text-center mb-0">
+                        <a href="{{ asset($image) }}" target="_blank"><img src="{{ asset($image) }}" alt="Image" class="d-block mx-auto mw-100 mb-2" style="max-height: 7em;"></a>
+
+                        @human_bytes(Storage::size($image))<br>
+
+                        <a href="#" class="card-link">Copier le lien</a><br>
+                        <a href="#" class="card-link text-danger">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</div>
 @endsection

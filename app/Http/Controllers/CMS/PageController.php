@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CMS\PageRequest;
@@ -60,12 +62,44 @@ class PageController extends Controller
 
     public function edit(PageRequest $request) {
         $validated = $request->validated();
+        $race = $request->route('race');
 
         $page = Page::firstOrNew([
             'uri' => $request->route('uri', ''),
-            'race_subdomain' => $request->route('race')->subdomain,
+            'race_subdomain' => $race->subdomain,
         ]);
-        $page->content = $validated['content'];
+
+        // Data-embedded img to storage
+        libxml_use_internal_errors(true);
+        
+        $dom = new \DOMDocument();
+        $prepended_encoding = '<?xml encoding="UTF-8">';
+        $dom->loadHTML($prepended_encoding . $validated['content'], LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        
+        $images = $dom->getElementsByTagName('img');
+        foreach($images as $count => $image) {
+            $src = $image->getAttribute('src');
+            $original_filename = $image->getAttribute('data-filename');
+
+            if(preg_match('/data:image/', $src)) {
+                preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
+
+                $mimeType = $groups['mime'];
+                
+                $path = 'cms/space' . $race->organizer_id . '/images/' . uniqid('', true) . '.' . $mimeType;
+
+                Storage::disk('local')->put($path, file_get_contents($src));
+
+                $image->removeAttribute('src');
+                $image->setAttribute('src', '/'.$path);
+            }
+        }
+
+        $content = substr($dom->saveHTML(), strlen($prepended_encoding));
+
+        // End of data-embedded img to storage
+
+        $page->content = $content; // $validated['content'];
         $page->title = $validated['title'];
         $page->visibility = $validated['visibility'];
         $page->save();

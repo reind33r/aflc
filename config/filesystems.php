@@ -28,6 +28,11 @@ return [
 
     'cloud' => env('FILESYSTEM_CLOUD', 's3'),
 
+    'links' => [
+        public_path('storage') => storage_path('app/public'),
+        public_path('cms') => storage_path('app/cms'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks

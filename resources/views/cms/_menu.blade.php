@@ -10,7 +10,7 @@
     ||
     ($item->visibility == 'race_organizer' && Auth::guard('web:organizers')->user() && Auth::guard('web:organizers')->user()->can('organize', $race))
 )
-<a class="p-2 mx-2 text-muted" href="{{ $item->url }}">{{ $item->name }}</a>
+<a @if($item->external_link == $item->url)target="_blank"@endif class="p-2 mx-2 text-muted" href="{{ $item->url }}">{{ $item->name }}</a>
 @endif
 @endforeach
 @if(count($race->menuItems) == 1)<span></span>@endif

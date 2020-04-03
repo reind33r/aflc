@@ -30,4 +30,6 @@ Password reset
 
 ## CMS
 
-* Summernote upload?
+Gallery: delete (with look in DB to see if it's used?)
+
+Integrate gallery with editor (see existing plugins)
