@@ -25,7 +25,7 @@
                     <td class="text-center align-middle">
                         <i class="fas fa-lg fa-grip-lines px-1 py-2" draggable></i>
     
-                        <br>{{ item_order[item.id] }}
+                        <!-- <br>{{ item_order[item.id] }} -->
                     </td>
                     <td class="align-middle">
                         <input type="text" v-model="item.name">
@@ -77,7 +77,7 @@
                         </select>
                     </td>
                     <td class="text-center align-middle">
-                        <button class="btn btn-sm btn-link text-danger" @click="removeItem(item.id, item.is_new)"><i class="far fa-trash-alt"></i></button>
+                        <button class="btn btn-sm btn-link text-danger" @click="removeItem(item.id, item.is_new, item_order[item.id])"><i class="far fa-trash-alt"></i></button>
                     </td>
                 </tr>
 
@@ -210,12 +210,19 @@
                 this.item_link_type[new_id] = '';
                 this.recompute_sort = !this.recompute_sort;
             },
-            removeItem(id, is_new) {
+            removeItem(id, is_new, order) {
                 this.items = this.items.filter(item => item.id !== id);
                 
                 if(!is_new) {
                     this.removed_items_ids.push(id);
                 }
+
+                let self = this;
+                self.sorted_items.forEach(function(item) {
+                    if(self.item_order[item.id] > order) {
+                        self.item_order[item.id] -= 1;
+                    }
+                });
 
                 this.recompute_sort = !this.recompute_sort;
             },

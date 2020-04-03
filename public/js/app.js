@@ -2126,7 +2126,7 @@ __webpack_require__.r(__webpack_exports__);
       this.item_link_type[new_id] = '';
       this.recompute_sort = !this.recompute_sort;
     },
-    removeItem: function removeItem(id, is_new) {
+    removeItem: function removeItem(id, is_new, order) {
       this.items = this.items.filter(function (item) {
         return item.id !== id;
       });
@@ -2135,6 +2135,12 @@ __webpack_require__.r(__webpack_exports__);
         this.removed_items_ids.push(id);
       }
 
+      var self = this;
+      self.sorted_items.forEach(function (item) {
+        if (self.item_order[item.id] > order) {
+          self.item_order[item.id] -= 1;
+        }
+      });
       this.recompute_sort = !this.recompute_sort;
     },
     saveChanges: function saveChanges() {
@@ -37596,15 +37602,7 @@ var render = function() {
                 }
               },
               [
-                _c("td", { staticClass: "text-center align-middle" }, [
-                  _c("i", {
-                    staticClass: "fas fa-lg fa-grip-lines px-1 py-2",
-                    attrs: { draggable: "" }
-                  }),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(_vm._s(_vm.item_order[item.id]) + "\n                ")
-                ]),
+                _vm._m(1, true),
                 _vm._v(" "),
                 _c("td", { staticClass: "align-middle" }, [
                   _c("input", {
@@ -37922,7 +37920,11 @@ var render = function() {
                       staticClass: "btn btn-sm btn-link text-danger",
                       on: {
                         click: function($event) {
-                          return _vm.removeItem(item.id, item.is_new)
+                          return _vm.removeItem(
+                            item.id,
+                            item.is_new,
+                            _vm.item_order[item.id]
+                          )
                         }
                       }
                     },
@@ -37985,6 +37987,17 @@ var staticRenderFns = [
           _c("i", { staticClass: "far fa-trash-alt" })
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "text-center align-middle" }, [
+      _c("i", {
+        staticClass: "fas fa-lg fa-grip-lines px-1 py-2",
+        attrs: { draggable: "" }
+      })
     ])
   }
 ]

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CMS\PageRequest;
+use App\Http\Requests\CMS\DeletePageRequest;
 
 use App\Models\CMS\Page;
 
@@ -71,5 +72,28 @@ class PageController extends Controller
 
         flash('La page a été sauvegardée.')->success();
         return redirect()->route('cms.page', ['uri' => $page->uri]);
+    }
+
+    public function showDeleteForm(Request $request) {
+        $page = Page::where([
+            'uri' => $request->route('uri', ''),
+            'race_subdomain' => $request->route('race')->subdomain,
+        ])->firstOrFail();
+
+        return view('cms.pages.delete', [
+            'page' => $page,
+        ]);
+    }
+
+    public function delete(DeletePageRequest $request) {
+        $validated = $request->validated();
+
+        Page::where([
+            'uri' => $validated['uri'],
+            'race_subdomain' => $request->route('race')->subdomain,
+        ])->delete();
+
+        flash('La page a été supprimée.')->success();
+        return redirect()->route('cms.organizer');
     }
 }

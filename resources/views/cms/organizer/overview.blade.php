@@ -40,7 +40,7 @@ Gestion du site
                         @lang('keys.'. $page->visibility)
                     </td>
                     <td class="text-center">
-                        <a href="" class="btn btn-sm btn-link text-danger"><i class="far fa-trash-alt"></i></a>
+                        <a href="{{ route('cms.page.delete', ['uri' => $page->uri]) }}" class="btn btn-sm btn-link text-danger"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 @empty

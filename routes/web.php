@@ -54,6 +54,9 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
             Route::get('/menu', 'CMS\MenuController@showEditForm')->name('cms.menu.edit');
             Route::post('/menu', 'CMS\MenuController@edit')->name('cms.menu.edit');
 
+            Route::post('/page/delete', 'CMS\PageController@delete')->name('cms.page.deleteAction');
+            Route::get('/page/_delete/{uri?}', 'CMS\PageController@showDeleteForm')->name('cms.page.delete');
+
             Route::get('/page/{uri?}', 'CMS\PageController@showEditForm')->name('cms.page.edit'); // Needs to be last in subgroup!
             Route::post('/page/{uri?}', 'CMS\PageController@edit')->name('cms.page.edit'); // Needs to be last in subgroup!
         });

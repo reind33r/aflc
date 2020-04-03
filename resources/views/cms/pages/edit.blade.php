@@ -58,7 +58,10 @@
     Contenu
     @endtextarea
 
-    <button type="submit" class="btn btn-primary mt-3">Sauvegarder la page</button>
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary align-middle">Sauvegarder la page</button>
+        <a href="{{ route('cms.page.delete', ['uri' => $page->uri]) }}" class="btn btn-sm btn-danger align-middle"><i class="far fa-trash-alt"></i> Supprimer</a>
+    </div>
 </form>
 
 @endsection
