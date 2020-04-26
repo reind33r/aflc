@@ -197,7 +197,7 @@ class RegistrationController extends Controller
 
                 // Redirecting to payment
                 flash('Ton inscription a été enregistrée. Nous t\'avons envoyé un e-mail pour expliquer la suite des opérations !')->success();
-                flash('Attention : le paiement des frais d\'inscription et l\'envoi de certains documents peut conditionner la validation de l\'inscription.')->warning();
+                flash('Attention : le paiement des frais d\'inscription et l\'envoi de certains documents peuvent conditionner la validation de l\'inscription.')->warning();
 
                 $response = redirect()->route('race.register.step5');
                 break;

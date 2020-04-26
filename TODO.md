@@ -2,17 +2,18 @@
 
 ## Registration
 
-MAKE IT WORK AGAIN (re-validate registration opportunity at the very end)
+has_error in stepN.blade.php
 
-Add organizer's comment (should concern available methods)
+Check hard limits at each step (jeton ?)
 
-Online payment (Stripe?)
+Payment : make the views
++ Online payment (Stripe?)
 
 TeamPilot / TeamSoapbox ---> updates parent timestamps
 
 ## Validation
 
-input transformation / sanitization : not in controller
+better code : input transformation / sanitization : not in controller
 
 ## Organizer
 
@@ -20,11 +21,11 @@ In registration mail, add contact info
 
 ## Mail
 
-En anglais ? :o
+Templates en anglais ? :o
 
 ## Auth / Users
 
-Verify
+Redirect after login/logout : to index of race, instead of previous URL...
 
 Password reset
 
