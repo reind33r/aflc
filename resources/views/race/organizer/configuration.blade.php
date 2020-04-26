@@ -7,6 +7,10 @@ Configuration
 @section('content')
 <h1>Configuration</h1>
 
+<p>
+    <a href="{{ route('race.organizer') }}" class="btn btn-secondary">Retour</a>
+</p>
+
 <div class="row">
     <div class="col-md">
         <div class="card mb-2">

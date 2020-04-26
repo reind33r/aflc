@@ -28,15 +28,15 @@
     </div>
     @endif
 
-    @if(($prepend ?? false) || ($append ?? false))
-    </div>
-    @endif
-
     @error(array_name_2_dotted($name))
     <div class="invalid-feedback">
         <strong>{{ $message }}</strong>
     </div>
     @enderror
+
+    @if(($prepend ?? false) || ($append ?? false))
+    </div>
+    @endif
 
     @isset($help_text)
     <small class="form-text text-muted">{{ $help_text }}</small>

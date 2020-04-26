@@ -56,7 +56,7 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
         Route::get('/configuration/ro/{id}', 'Race\OrganizerController@showEditROForm')->name('race.organizer.ro.edit');
         Route::post('/configuration/ro/{id}', 'Race\OrganizerController@handleEditRO')->name('race.organizer.ro.edit');
         Route::get('/configuration/ro/{id}/delete', 'Race\OrganizerController@showDeleteROForm')->name('race.organizer.ro.delete');
-        Route::post('/configuration/ro/{id}/delete', 'Race\OrganizerController@deleteRO')->name('race.organizer.ro.delete');
+        Route::post('/configuration/ro/{id}/delete', 'Race\OrganizerController@handleDeleteRO')->name('race.organizer.ro.delete');
 
         // CMS
         Route::prefix('/cms')->middleware('use_organizer_guard', 'can:organize,race')->group(function() {

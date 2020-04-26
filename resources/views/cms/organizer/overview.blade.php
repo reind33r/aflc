@@ -7,6 +7,10 @@ Gestion du site
 @section('content')
 <h1>Gestion du site</h1>
 
+<p>
+    <a href="{{ route('race.organizer') }}" class="btn btn-secondary">Retour</a>
+</p>
+
 <div class="row">
     <div class="col-md">
         <h2>Pages</h2>
