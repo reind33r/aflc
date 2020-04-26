@@ -8,7 +8,7 @@ Fermeture de la page
 <h1>Fermeture de la page</h1>
 
 <p>
-    <button class="btn btn-primary btn-sm" onclick="closePopup();">Clique ici</button> si la page ne se ferme pas automatiquement.
+    <button class="btn btn-primary btn-sm" onclick="closePopup();">Clique ici</button> si la page ne se ferme pas automatiquement après 5 secondes.
 </p>
 
 <p>
@@ -22,6 +22,7 @@ function closePopup() {
     window.opener.postMessage('close', '*');
     window.close();
 }
-closePopup();
+
+window.setTimeout(closePopup, 5000);
 </script>
 @endpush

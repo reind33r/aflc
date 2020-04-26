@@ -6,7 +6,7 @@ function write_class($i, $active, $has_error, $user_progress) {
     if($has_error) {
         echo ' has-error';
     }
-    if($user_progress < $i) {
+    if($user_progress < $i || ($user_progress == 5 && $i < 5)) {
         echo ' disabled';
     }
 }

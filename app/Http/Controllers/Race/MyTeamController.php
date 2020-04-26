@@ -14,7 +14,9 @@ class MyTeamController extends Controller
 {
     public function showOverview(Request $request) {
         $team = Team::where('captain_id', Auth::user()->id)
-                    ->where('race_subdomain', $request->route('race')->subdomain)
+                    ->whereHas('registration_opportunity', function($q) use($request) {
+                        $q->where('race_subdomain', $request->route('race')->subdomain);
+                    })
                     ->first();
 
         return view('race.myteam.overview', [

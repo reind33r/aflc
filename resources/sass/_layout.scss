@@ -166,3 +166,7 @@ blockquote {
 .draggedOver{
     background: $yellow !important;
 }
+
+.card:not(:hover) .card-d-onhover {
+    display: none;
+}

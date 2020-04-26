@@ -26,12 +26,19 @@ class UpdateProfileController extends Controller
 
         $user = Auth::user();
 
-        $user->honorific_prefix = $validated['honorific_prefix'];
-        $user->first_name = mb_convert_case($validated['first_name'], MB_CASE_TITLE);
-        $user->last_name = mb_convert_case($validated['last_name'], MB_CASE_TITLE);
-        // $user->email = $validated['email']; // TODO: verify uniqueness and unverify field email_is_verified
+        // $user->honorific_prefix = $validated['honorific_prefix'];
+        // $user->first_name = mb_convert_case($validated['first_name'], MB_CASE_TITLE);
+        // $user->last_name = mb_convert_case($validated['last_name'], MB_CASE_TITLE);
+        
+        if($user->email != $validated['email']) {
+            $resendVerificationNotification = true;
+        }
 
-        $user->birthday = $validated['birthday'];
+        $user->email = $validated['email'];
+        $user->email_verified_at = null;
+        // Verify ?
+
+        // $user->birthday = $validated['birthday'];
 
         $user_contact_info = ($user->contact_info()->exists()) ? $user->contact_info : new ContactInfo;
 
@@ -55,8 +62,15 @@ class UpdateProfileController extends Controller
             return redirect()->route('auth.update_profile');
         }
 
+        $flash = 'Ton profil a été mis à jour avec succès.';
+
+        if($resendVerificationNotification ?? False) {
+            $user->sendEmailVerificationNotification();
+            $flash .= ' Un email contenant un lien de vérification a été envoyé à ta nouvelle adresse.';
+        }
+
         // Redirecting the user with a little message
-        flash('Ton profil a été mis à jour avec succès.')->success();
+        flash($flash)->success();
         return redirect()->route('close_popup');
     }
 }

@@ -16,21 +16,26 @@ class CreateTeamsTable extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('race_subdomain');
             $table->unsignedBigInteger('captain_id');
+            $table->unsignedBigInteger('registration_opportunity_id');
 
             $table->string('name');
+            $table->text('team_comments')->nullable();
+            $table->text('organizer_comments')->nullable();
+
+            $table->boolean('refused')->default(false);
+            $table->datetime('validated')->nullable()->default(null);
 
             $table->timestamps();
-
-            $table->foreign('race_subdomain')
-                  ->references('subdomain')->on('races')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
 
             $table->foreign('captain_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('registration_opportunity_id')
+                ->references('id')->on('registration_opportunities')
+                ->onDelete('restrict')
                 ->onUpdate('cascade');
         });
     }

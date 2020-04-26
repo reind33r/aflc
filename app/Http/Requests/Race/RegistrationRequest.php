@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Rules\MobilePhone;
 
+use App\Models\Race\RegistrationOpportunity;
+
 use Illuminate\Support\Facades\Auth;
 
 class RegistrationRequest extends FormRequest
@@ -28,9 +30,17 @@ class RegistrationRequest extends FormRequest
      */
     public function rules()
     {
-        $commonRules = ['step' => 'required|in:1,2,3,4,5'];
+        $commonRules = [
+            'step' => 'required|in:0,1,2,3,4,5'
+        ];
 
         switch ($this->input('step')) {
+            case 0:
+                return $commonRules + [
+                    'registration_opportunity_id' => 'required|exists:registration_opportunities,id'
+                ];
+                break;
+
             case 1:
                 return $commonRules + [
                     'honorific_prefix' => 'required|in:m,mme,autre',
@@ -50,7 +60,7 @@ class RegistrationRequest extends FormRequest
 
             case 2:
                 return $commonRules + [
-                    'captain_is_pilot' => 'in:on',
+                    'captain_is_pilot' => 'boolean',
                     'captain_birthday' => 'required_with:captain_is_pilot|nullable|date',
                     'pilots' => 'array|required_unless:captain_is_pilot,on',
                     'pilots.*.honorific_prefix' => 'required|in:m,mme,autre',
@@ -71,10 +81,11 @@ class RegistrationRequest extends FormRequest
             case 4:
                 return $commonRules + [
                     'team_name' => 'required|string|max:30',
-                    'captain_check' => 'required|in:on',
-                    'pilots_check' => 'required|in:on',
-                    'soapboxes_check' => 'required|in:on',
-                    'rgpd_check' => 'required|in:on',
+                    'captain_check' => 'accepted',
+                    'pilots_check' => 'accepted',
+                    'soapboxes_check' => 'accepted',
+                    'payment_check' => 'accepted',
+                    'rgpd_check' => 'accepted',
                 ];
                 break;
             
@@ -84,12 +95,36 @@ class RegistrationRequest extends FormRequest
         }
     }
 
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if(!array_key_exists('step', $this->validated())) { return; }
+
+            if($this->validated()['step'] == 0) {
+                if(!array_key_exists('registration_opportunity_id', $this->validated())) { return; }
+
+                $ro = RegistrationOpportunity::find($this->validated()['registration_opportunity_id']);
+                
+                if(!$ro->isOpen) {
+                    $validator->errors()->add('registration_opportunity_id', 'La période d\'inscription est terminée.');
+                }
+                if($ro->isLimitReached) {
+                    $validator->errors()->add('registration_opportunity_id', 'La limite d\'inscriptions est déjà atteinte.');
+                }
+            }
+        });
+    }
+
     /**
      * Sets the redirect route on error according to the step we're validating
      */
     protected function getRedirectUrl()
     {
-        $this->redirectRoute = 'race.register.step' . $this->input('step', 1);
+        if($this->input('step') == 0) {
+            $this->redirectRoute = 'race.register';
+        } else {
+            $this->redirectRoute = 'race.register.step' . $this->input('step', 1);
+        }
 
         return parent::getRedirectUrl();
     }

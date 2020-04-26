@@ -45,6 +45,15 @@
                             Mettre à jour mon profil
                             @endcomponent
 
+                            @unless(Auth::user()->hasVerifiedEmail())
+                            @component('components.popup_link', [
+                                'href' => route('verification.notice'),
+                                'class' => 'dropdown-item text-danger',
+                            ])
+                            Vérifier mon adresse email
+                            @endcomponent
+                            @endunless
+
                             <a href="" class="dropdown-item">Changer mon mot de passe</a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST">

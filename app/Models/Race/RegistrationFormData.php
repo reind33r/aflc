@@ -7,6 +7,8 @@ use Carbon\Carbon;
 class RegistrationFormData {
     private $_userProgress = 1;
 
+    private $registration_opportunity_id = null;
+
     private $captain_honorific_prefix = null;
     private $captain_first_name = null;
     private $captain_last_name = null;
@@ -24,6 +26,7 @@ class RegistrationFormData {
     private $soapboxes = []; // name, desired_number
 
     private $team_name = null;
+    private $team_comments = null;
 
     public function initial($key, $value) {
         if(!property_exists($this, $key)) {

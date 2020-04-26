@@ -13,6 +13,10 @@ Mettre à jour mon profil
     ton autorisation.
 </p>
 
+<p class="alert alert-info">
+    Pour mettre à jour tes informations d'état civil, contacte un organisateur.
+</p>
+
 <form method="POST" action="{{ route('auth.update_profile') }}">
     @csrf
 
@@ -26,8 +30,9 @@ Mettre à jour mon profil
                     'mme' => 'Mme.',
                     'autre' => 'Autre',
                 ],
-                'required' => True,
+                // 'required' => True,
                 'initial' => $user->honorific_prefix,
+                'disabled' => True,
             ])
             Civilité
             @endselect
@@ -37,8 +42,9 @@ Mettre à jour mon profil
             @input([
                 'name' => 'first_name',
                 'autocomplete' => 'given-name',
-                'required' => True,
+                // 'required' => True,
                 'initial' => $user->first_name,
+                'disabled' => True,
             ])
             Prénom
             @endinput
@@ -48,8 +54,9 @@ Mettre à jour mon profil
             @input([
                 'name' => 'last_name',
                 'autocomplete' => 'family-name',
-                'required' => True,
+                // 'required' => True,
                 'initial' => $user->last_name,
+                'disabled' => True,
             ])
             Nom de famille
             @endinput
@@ -61,6 +68,7 @@ Mettre à jour mon profil
         'type' => 'date',
         'required' => $user->teams_as_pilot()->count() > 0,
         'initial' => $user->birthday ? $user->birthday->format('Y-m-d') : '',
+        'disabled' => True,
     ])
     Date de naissance
     @endinput

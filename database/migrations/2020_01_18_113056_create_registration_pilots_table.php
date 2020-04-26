@@ -17,6 +17,8 @@ class CreateTeamPilotsTable extends Migration
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('user_id');
 
+            $table->boolean('validated')->default(False);
+
             $table->primary(['team_id', 'user_id']);
             $table->foreign('team_id')
                   ->references('id')->on('teams')

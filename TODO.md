@@ -1,18 +1,18 @@
 # ToDo
 
-## Validation
-
-input transformation / sanitization : not in controller
-
 ## Registration
 
-Handle fee per Race
+MAKE IT WORK AGAIN (re-validate registration opportunity at the very end)
 
 Add organizer's comment (should concern available methods)
 
 Online payment (Stripe?)
 
 TeamPilot / TeamSoapbox ---> updates parent timestamps
+
+## Validation
+
+input transformation / sanitization : not in controller
 
 ## Organizer
 

@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::aliasComponent('bootstrap.form.checkbox', 'checkbox');
         Blade::aliasComponent('bootstrap.form.textarea', 'textarea');
         Blade::aliasComponent('bootstrap.form.select', 'select');
+        Blade::aliasComponent('bootstrap.form.datetime', 'datetime');
 
         Blade::directive('human_date', function ($expression) {
             return "<?php require_once(app_path('Helpers/HumanDateFormat.php')); echo \App\Helpers\HumanDateFormat::format({$expression}); ?>";
@@ -42,6 +43,10 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::directive('human_bytes', function ($expression) {
             return "<?php require_once(app_path('Helpers/BytesSizeFormat.php')); echo \App\Helpers\BytesSizeFormat::formatBytes({$expression}); ?>";
+        });
+
+        Blade::directive('currency', function ($expression) {
+            return "<?php require_once(app_path('Helpers/CurrencyFormat.php')); echo \App\Helpers\CurrencyFormat::format({$expression}); ?>";
         });
     }
 }

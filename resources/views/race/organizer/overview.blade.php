@@ -20,5 +20,8 @@ Organisation de la course
         Gestion du site<br>
         <small>Pages et menus</small>
     </a>
+    <a href="{{ route('race.organizer.configuration') }}" class="btn btn-info btn-lg">
+        Configuration
+    </a>
 </nav>
 @endsection

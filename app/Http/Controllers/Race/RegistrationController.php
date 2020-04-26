@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Services\UsernameGenerator;
 
 use App\Models\Race\RegistrationFormData;
+use App\Models\Race\RegistrationOpportunity;
 use App\Models\Race\Team;
 use App\Models\User;
 use App\Models\ContactInfo;
@@ -36,6 +37,24 @@ class RegistrationController extends Controller
         return redirect()->route('race.register.step' . $this->_getRegistrationFormData()->userProgress());
     }
 
+
+    /**
+     * Start (choosing a registration opportunity... if applicable)
+     */
+    public function start(Request $request) {
+        $race = $request->route('race');
+
+        // if($race->open_registration_opportunities()->count() == 1) {
+        //     $registration_form_data = $this->_getRegistrationFormData();
+        //     $registration_form_data->set('registration_opportunity_id', $race->open_registration_opportunities()->first()->id);
+        //     return redirect(route('race.register.step1'));
+        // }
+
+        return view('race.register.start', [
+            'registration_form_data' => $this->_getRegistrationFormData(),
+        ]);
+    }
+
     /**
      * Step 1: login
      */
@@ -49,6 +68,12 @@ class RegistrationController extends Controller
         $registration_form_data->updateUserProgress($step + 1);
         
         switch ($step) {
+            case 0:
+                $registration_form_data->set('registration_opportunity_id', $validated['registration_opportunity_id']);
+
+                $response = redirect()->route('race.register.step' . $registration_form_data->userProgress());
+
+                break;
             case 1:
                 foreach($validated as $key => $value) {
                     $registration_form_data->set('captain_' . $key, $value);
@@ -75,11 +100,7 @@ class RegistrationController extends Controller
 
             case 4:
                 $registration_form_data->set('team_name', $validated['team_name']);
-                
-                $response = redirect()->route('race.register.step5');
-                break;
 
-            case 5:
                 $race = $request->route('race');
 
                 // Creating models from RegistrationFormData
@@ -99,7 +120,8 @@ class RegistrationController extends Controller
 
                 $team = new Team;
                 $team->name = $registration_form_data->get('team_name');
-                $team->race_subdomain = $race->subdomain;
+                $team->team_comments = $registration_form_data->get('team_comments');
+                $team->registration_opportunity_id = $registration_form_data->get('registration_opportunity_id');
                 $team->captain_id = $captain->id;
 
                 $pilots = [];
@@ -173,8 +195,15 @@ class RegistrationController extends Controller
                 // Forgetting the form data
                 Session::forget('registration_form_data');
 
+                // Redirecting to payment
+                flash('Ton inscription a été enregistrée. Nous t\'avons envoyé un e-mail pour expliquer la suite des opérations !')->success();
+                flash('Attention : le paiement des frais d\'inscription et l\'envoi de certains documents peut conditionner la validation de l\'inscription.')->warning();
+
+                $response = redirect()->route('race.register.step5');
+                break;
+
+            case 5:
                 // Redirecting the user with a little message
-                flash('Ton inscription a bien été enregistrée. Nous t\'avons envoyé un e-mail pour expliquer la suite des opérations !')->success();
                 return redirect()->route('index');
                 
                 break;
@@ -257,11 +286,12 @@ class RegistrationController extends Controller
 
         return view('race.register.step4', [
             'registration_form_data' => $registration_form_data,
+            'ro' => RegistrationOpportunity::find($registration_form_data->get('registration_opportunity_id')),
         ]);
     }
 
     /**
-     * Step 4: payment
+     * Step 5: payment
      */
     public function showStep5(Request $request) {
         $registration_form_data = $this->_getRegistrationFormData();

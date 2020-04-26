@@ -44,7 +44,7 @@
                     'name' => 'pilots['. $index .'][birthday]',
                     'type' => 'date',
                     'required' => True,
-                    'initial' => ($pilot ?? false ) ? $pilot['birthday']->format('Y-m-d') : '',
+                    'initial' => ($pilot ?? false) ? $pilot['birthday'] ? $pilot['birthday']->format('Y-m-d') : '' : '',
                 ])
                 Date de naissance
                 @endinput

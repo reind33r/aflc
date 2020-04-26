@@ -27,7 +27,9 @@ class RacePolicy
         }
 
         return Team::where('captain_id', $user->id)
-                   ->where('race_subdomain', $race->subdomain)
+                    ->whereHas('registration_opportunity', function($q) use($race) {
+                        $q->where('race_subdomain', $race->subdomain);
+                    })
                    ->exists();
     }
 
@@ -37,9 +39,11 @@ class RacePolicy
         }
 
         return TeamPilot::where('user_id', $user->id)
-                   ->whereHas('team', function($q) use($race) {
-                       $q->where('race_subdomain', $race->subdomain);
-                   })
+                   ->whereHas('team', function($qteam) use($race) {
+                        $qteam->whereHas('registration_opportunity', function($q) use($race) {
+                            $q->where('race_subdomain', $race->subdomain);
+                        });
+                    })
                    ->exists();
     }
 

@@ -30,13 +30,14 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
     // Registration
     Route::prefix('/register')->middleware('can:register,race')->group(function() {
         Route::post('/_handle', 'Race\RegistrationController@handleStep')->name('race.register.handleStep');
-        Route::redirect('', '/register/1-captain')->name('race.register');
+        Route::get('', 'Race\RegistrationController@start')->name('race.register');
         Route::get('/1-captain', 'Race\RegistrationController@showStep1')->name('race.register.step1');
         Route::get('/2-pilots', 'Race\RegistrationController@showStep2')->name('race.register.step2');
         Route::get('/3-soapboxes', 'Race\RegistrationController@showStep3')->name('race.register.step3');
         Route::get('/4-team_overview', 'Race\RegistrationController@showStep4')->name('race.register.step4');
-        Route::get('/5-payment', 'Race\RegistrationController@showStep5')->name('race.register.step5');
     });
+
+    Route::middleware('can:captain,race')->get('/register/5-payment', 'Race\PaymentController@showStep5')->name('race.register.step5');
 
     // Registered users
     Route::middleware('can:captain,race')->group(function() {
@@ -46,6 +47,16 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
     // Organizer
     Route::prefix('/organizer')->middleware('use_organizer_guard', 'can:organize,race')->group(function() {
         Route::get('/', 'Race\OrganizerController@overview')->name('race.organizer');
+
+        Route::get('/configuration', 'Race\OrganizerController@configuration')->name('race.organizer.configuration');
+        Route::post('/configuration/race_information', 'Race\OrganizerController@handleRaceInfo')->name('race.organizer.configuration.handleRaceInfo');
+        
+        Route::get('/configuration/ro/new', 'Race\OrganizerController@showNewROForm')->name('race.organizer.ro.new');
+        Route::post('/configuration/ro/new', 'Race\OrganizerController@handleNewRO')->name('race.organizer.ro.new');
+        Route::get('/configuration/ro/{id}', 'Race\OrganizerController@showEditROForm')->name('race.organizer.ro.edit');
+        Route::post('/configuration/ro/{id}', 'Race\OrganizerController@handleEditRO')->name('race.organizer.ro.edit');
+        Route::get('/configuration/ro/{id}/delete', 'Race\OrganizerController@showDeleteROForm')->name('race.organizer.ro.delete');
+        Route::post('/configuration/ro/{id}/delete', 'Race\OrganizerController@deleteRO')->name('race.organizer.ro.delete');
 
         // CMS
         Route::prefix('/cms')->middleware('use_organizer_guard', 'can:organize,race')->group(function() {

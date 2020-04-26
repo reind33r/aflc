@@ -17,6 +17,8 @@ class CreateTeamSoapboxesTable extends Migration
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('soapbox_id');
 
+            $table->boolean('validated')->default(False);
+
             $table->primary(['team_id', 'soapbox_id']);
         });
     }

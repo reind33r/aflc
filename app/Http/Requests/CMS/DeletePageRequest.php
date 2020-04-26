@@ -28,7 +28,7 @@ class DeletePageRequest extends FormRequest
         // dd($this->request->all());
 
         return [
-            'confirm_delete' => 'required|in:on',
+            'confirm_delete' => 'accepted',
             'uri' => [
                 'present',
                 Rule::exists('cms_pages')->where(function($query) {

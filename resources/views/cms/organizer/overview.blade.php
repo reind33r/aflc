@@ -97,7 +97,7 @@ Gestion du site
         <h2>Gestionnaire d'images</h2>
 
         <div class="row">
-            @foreach ($images as $image)
+            @foreach ($images as $i => $image)
             <div style="max-width: 15em;">
                 <div class="card">
                     <div class="card-body text-center mb-0">
@@ -105,7 +105,9 @@ Gestion du site
 
                         @human_bytes(Storage::size($image))<br>
 
-                        <a href="#" class="card-link">Copier le lien</a><br>
+                        <a data-copy="copy-image-link-{{ $i }}" href="#" class="card-link">Copier le lien</a>
+                        <input class="d-none" type="text" id="copy-image-link-{{ $i }}" value="{{ asset($image) }}">
+                        <br>
                         <a href="#" class="card-link text-danger">Supprimer</a>
                     </div>
                 </div>
@@ -115,3 +117,25 @@ Gestion du site
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script type="text/javascript">
+document.querySelectorAll('a[data-copy]').forEach(function(link_copy) {
+    link_copy.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        var el = this;
+        var id_to_copy = el.getAttribute('data-copy');
+        var input_to_copy = document.getElementById(id_to_copy);
+        input_to_copy.classList.remove('d-none');
+        input_to_copy.select();
+        input_to_copy.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        input_to_copy.classList.add('d-none');
+
+        el.classList.add('disabled');
+        el.innerHTML = 'Lien copié';
+    });
+});
+</script>
+@endpush

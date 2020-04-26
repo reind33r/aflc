@@ -4,6 +4,7 @@
     <select name="{{ $name }}" id="{{ $name }}"
         class="custom-select @error($name) is-invalid @enderror"
         @if($autofocus ?? false) autofocus @endif
+        @if($disabled ?? false) disabled @endif
         @if($autocomplete ?? false) autocomplete="{{ $autocomplete }}" @endif>
         @unless($required ?? false)
         <option value=""></option>

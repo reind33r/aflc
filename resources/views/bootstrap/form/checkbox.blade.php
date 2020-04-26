@@ -4,6 +4,7 @@
         
         <input type="checkbox" name="{{ $name }}" id="{{ $name }}" {{ old($name, $checked ?? false) ? 'checked' : '' }}
             class="form-check-input @error($name) is-invalid @enderror"
+            value="{{ $value ?? 1 }}"
             @if($required ?? False) required @endif
         >
 

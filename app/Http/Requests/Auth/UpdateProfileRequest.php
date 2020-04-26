@@ -29,16 +29,15 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'honorific_prefix' => 'required|in:m,mme,autre',
-            'first_name' => 'required|string|max:100',
-            'last_name' => 'required|string|max:100',
+            // 'honorific_prefix' => 'required|in:m,mme,autre',
+            // 'first_name' => 'required|string|max:100',
+            // 'last_name' => 'required|string|max:100',
             'email' => [
                 'required',
                 'email',
                 Rule::unique('users')->ignore(Auth::user())
             ],
-
-            'birthday' => 'date|nullable',
+            // 'birthday' => 'date|nullable',
             'mobile_phone' => ['nullable', new MobilePhone],
             'address' => 'nullable|string',
             'zip_code' => 'nullable|string|size:5',
@@ -46,9 +45,9 @@ class UpdateProfileRequest extends FormRequest
         ];
 
         // Birthday required for pilots
-        if(Auth::user()->teams_as_pilot()->count() > 0) {
-            $rules['birthday'] = 'date|required';
-        }
+        // if(Auth::user()->teams_as_pilot()->count() > 0) {
+        //     $rules['birthday'] = 'date|required';
+        // }
 
         // Contact info required for team captains
         if(Auth::user()->teams()->count() > 0) {
