@@ -57,7 +57,7 @@
     ])
     J'autorise a-fond-la-caisse.com à stocker mes données personnelles à des fins techniques et d'organisation de la course, et à me contacter ponctuellement selon mes préférences.
     @slot('help_text')
-    <a href="#">Plus d'informations</a>
+    <a target="_blank" href="#">Plus d'informations</a>
     @endslot
     @endcheckbox
 

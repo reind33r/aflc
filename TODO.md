@@ -2,8 +2,6 @@
 
 ## Registration
 
-has_error in stepN.blade.php
-
 Check hard limits at each step (jeton ?)
 
 Payment : make the views
@@ -28,6 +26,8 @@ Templates en anglais ? :o
 Redirect after login/logout : to index of race, instead of previous URL...
 
 Password reset
+
+Make page on data use ("en savoir plus" lors du process registration)
 
 ## CMS
 

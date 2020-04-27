@@ -12,4 +12,8 @@
         <strong>{{ $message }}</strong>
     </div>
     @enderror
+
+    @isset($help_text)
+    <small class="form-text text-muted">{{ $help_text }}</small>
+    @endisset
 </div>

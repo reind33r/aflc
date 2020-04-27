@@ -8,10 +8,8 @@
 @include('race.register._steps', [
     'active' => 3,
     'user_progress' => $registration_form_data->userProgress(),
-    'has_error' => false, // TODO
+    'has_error' => $errors->any(),
 ])
-
-{{-- {{ dd($errors) }} --}}
 
 <form method="POST" action="{{ route('race.register.handleStep') }}">
     @csrf

@@ -8,17 +8,12 @@
 @include('race.register._steps', [
     'active' => 4,
     'user_progress' => $registration_form_data->userProgress(),
-    'has_error' => false, // TODO
+    'has_error' => $errors->any(),
 ])
 
 <form method="POST" action="{{ route('race.register.handleStep') }}">
     @csrf
     <input type="hidden" name="step" value="4">
-
-    <p>
-        Merci de vérifier que les informations entrées sont correctes, et de
-        cocher les cases correspondantes.
-    </p>
 
     <div class="row">
         <div class="col-md-6">
@@ -36,12 +31,17 @@
                 'name' => 'team_comments',
                 'required' => False,
                 'initial' => $registration_form_data->get('team_comments'),
-                'help' => '',
+                'help_text' => 'Ces commentaires seront visibles par les organisateurs.',
             ])
             Commentaires
             @endtextarea
         </div>
     </div>
+
+    <p class="alert alert-info">
+        Merci de vérifier que les informations ci-dessous sont correctes, et de
+        cocher les cases correspondantes.
+    </p>
 
     @checkbox([
         'name' => 'captain_check',
@@ -147,61 +147,68 @@
         Paiement
     @endcheckbox
 
-    <div class="card mb-4">
-        <div class="card-body">
-            <dl class="row mb-0">
-                <dt class="col-sm-3">Rappel du tarif choisi</dt>
-                <dd class="col-sm-9">
-                    {{ $ro->description }}
-                    <br>
-                    <a href="{{ route('race.register') }}">Modifier</a>
-                </dd>
-            </dl>
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Quantité</th>
+                        <th>Tarif unitaire</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Frais d'inscription fixes</th>
+                        <td>1</td>
+                        <td>@currency($ro->fee_per_team)</td>
+                        <td>@currency($ro->fee_per_team)</td>
+                    </tr>
+                    <tr>
+                        <th>Pilotes</th>
+                        <td>{{ (count($registration_form_data->get('pilots')) +  ($registration_form_data->get('captain_is_pilot') ? 1 : 0)) }}</td>
+                        <td>@currency($ro->fee_per_pilot)</td>
+                        <td>@currency((count($registration_form_data->get('pilots')) +  ($registration_form_data->get('captain_is_pilot') ? 1 : 0)) * $ro->fee_per_pilot)</td>
+                    </tr>
+                    <tr>
+                        <th>Caisses à savon</th>
+                        <td>{{ count($registration_form_data->get('soapboxes')) }}</td>
+                        <td>@currency($ro->fee_per_soapbox)</td>
+                        <td>@currency(count($registration_form_data->get('soapboxes')) * $ro->fee_per_soapbox)</td>
+                    </tr>
+                </tbody>
+                <tfoot class="lead">
+                    <tr>
+                        <th colspan="3">Total</th>
+                        <td class="font-weight-bold">
+                            @currency(
+                                $ro->fee_per_team +
+                                (count($registration_form_data->get('pilots')) +  ($registration_form_data->get('captain_is_pilot') ? 1 : 0)) * $ro->fee_per_pilot +
+                                count($registration_form_data->get('soapboxes')) * $ro->fee_per_soapbox
+                            )
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-6">Rappel du tarif choisi</dt>
+                        <dd class="col-sm-6">
+                            {{ $ro->description }}
+                            <br>
+                            <a href="{{ route('race.register') }}">Modifier</a>
+                        </dd>
+                    </dl>
+        
+                </div>
+            </div>
         </div>
     </div>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Quantité</th>
-                <th>Tarif unitaire</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>Frais d'inscription fixes</th>
-                <td>1</td>
-                <td>@currency($ro->fee_per_team)</td>
-                <td>@currency($ro->fee_per_team)</td>
-            </tr>
-            <tr>
-                <th>Pilotes</th>
-                <td>{{ (count($registration_form_data->get('pilots')) +  ($registration_form_data->get('captain_is_pilot') ? 1 : 0)) }}</td>
-                <td>@currency($ro->fee_per_pilot)</td>
-                <td>@currency((count($registration_form_data->get('pilots')) +  ($registration_form_data->get('captain_is_pilot') ? 1 : 0)) * $ro->fee_per_pilot)</td>
-            </tr>
-            <tr>
-                <th>Caisses à savon</th>
-                <td>{{ count($registration_form_data->get('soapboxes')) }}</td>
-                <td>@currency($ro->fee_per_soapbox)</td>
-                <td>@currency(count($registration_form_data->get('soapboxes')) * $ro->fee_per_soapbox)</td>
-            </tr>
-        </tbody>
-        <tfoot class="lead">
-            <tr>
-                <th colspan="3">Total</th>
-                <td>
-                    @currency(
-                        $ro->fee_per_team +
-                        (count($registration_form_data->get('pilots')) +  ($registration_form_data->get('captain_is_pilot') ? 1 : 0)) * $ro->fee_per_pilot +
-                        count($registration_form_data->get('soapboxes')) * $ro->fee_per_soapbox
-                    )
-                </td>
-            </tr>
-        </tfoot>
-    </table>
 
     @checkbox([
         'name' => 'rgpd_check',
@@ -210,6 +217,10 @@
         J'autorise a-fond-la-caisse.com à stocker mes données personnelles
         ainsi que celles des pilotes enregistrés,
         à des fins techniques et d'organisation de la course.
+
+        @slot('help_text')
+        <a target="_blank" href="#">Plus d'informations</a>
+        @endslot
     @endcheckbox
 
     <input type="submit" name="nextStep"

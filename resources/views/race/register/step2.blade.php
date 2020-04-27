@@ -8,7 +8,7 @@
 @include('race.register._steps', [
     'active' => 2,
     'user_progress' => $registration_form_data->userProgress(),
-    'has_error' => false, // TODO
+    'has_error' => $errors->any(),
 ])
 
 {{-- {{ dd($errors) }} --}}

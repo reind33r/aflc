@@ -62,7 +62,7 @@ class RegistrationRequest extends FormRequest
                 return $commonRules + [
                     'captain_is_pilot' => 'boolean',
                     'captain_birthday' => 'required_with:captain_is_pilot|nullable|date',
-                    'pilots' => 'array|required_unless:captain_is_pilot,on',
+                    'pilots' => 'array|required_unless:captain_is_pilot,1',
                     'pilots.*.honorific_prefix' => 'required|in:m,mme,autre',
                     'pilots.*.first_name' => 'required|string|max:100',
                     'pilots.*.last_name' => 'required|string|max:100',
