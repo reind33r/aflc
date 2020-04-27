@@ -52,6 +52,13 @@ Nouvelle opportunité d'inscription
         </div>
     </div>
 
+    @checkbox([
+        'name' => 'teasing',
+        'help_text' => 'Dans le formulaire d\'inscription, l\'option sera désactivée mais toujours visible',
+    ])
+        Afficher même en dehors de la période d'ouverture
+    @endcheckbox
+
     <div class="row">
         <div class="col-sm">
             @input([
@@ -91,6 +98,13 @@ Nouvelle opportunité d'inscription
         </div>
     </div>
 
+    @textarea([
+        'name' => 'comment_on_payment',
+        'help_text' => 'Ce commentaire est destiné au capitaine de chaque équipe, et sera affiché sur les pages liées au paiement. Il peut préciser les modes de paiement acceptés (chèque, virement, espèces...) ainsi que les modalités (envoi postal, remise en mains propres le jour de la course, ...).'
+    ])
+    Commentaire concernant le paiement
+    @endtextarea
+
     <div class="row">
         <div class="col-sm">
             @input([
@@ -126,13 +140,6 @@ Nouvelle opportunité d'inscription
             @endinput
         </div>
     </div>
-
-    @checkbox([
-        'name' => 'teasing',
-        'help_text' => 'Dans le formulaire d\'inscription, l\'option sera désactivée mais toujours visible',
-    ])
-        Afficher même en dehors de la période d'ouverture
-    @endcheckbox
 
     @checkbox([
         'name' => 'soft_limits',

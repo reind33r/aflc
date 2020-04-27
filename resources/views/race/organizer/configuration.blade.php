@@ -70,68 +70,77 @@ Configuration
                     ou encore plusieurs tarifs.
                 </p>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th>Dates d'ouverture</th>
-                            <th>Tarifs et limites</th>
-                            <th><i class="far fa-edit"></i> <i class="far fa-trash-alt"></i></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($race->registration_opportunities as $ro)
-                        <tr>
-                            <td>{{ $ro->description }}</td>
-                            <td>
-                                @if($ro->from == null && $ro->to == null)
-                                Jusqu'à la course
-                                @elseif($ro->from == null)
-                                Jusqu'au <strong>@human_date($ro->to, 'long', 'short')</strong>
-                                @elseif($ro->to == null)
-                                À partir du <strong>@human_date($ro->from, 'long', 'short')</strong>
-                                @else
-                                Du <strong>@human_date($ro->from, 'long', 'short')</strong><br>
-                                au <strong>@human_date($ro->to, 'long', 'short')</strong>
-                                @endif
+                <p>
+                    <a href="{{ route('race.organizer.ro.new') }}" class="btn btn-success">Nouvelle opportunité</a>
+                </p>
 
-                                <hr>
-                                @if($ro->teasing)
-                                <span class="text-warning">Afficher en dehors de la période d'ouverture</span>
-                                @else
-                                Ne pas afficher en dehors de la période d'ouverture
-                                @endif
-                            </td>
-                            <td>
-                                @currency($ro->fee_per_team) / équipe (limite : {{ $ro->team_limit ?? '∞' }})<br>
-                                @currency($ro->fee_per_pilot) / pilote (limite : {{ $ro->pilot_limit ?? '∞' }})<br>
-                                @currency($ro->fee_per_soapbox) / caisse à savon (limite : {{ $ro->soapbox_limit ?? '∞' }})
-                                <hr>
-                                @if($ro->soft_limits)
-                                <span class="text-danger">
-                                    Les inscriptions sont encore possibles après
-                                    qu'une des limites est atteinte.
-                                </span>
-                                @else
-                                <span class="text-warning">
-                                    Les inscriptions sont automatiquement fermées dès
-                                    que l'une des limites est atteinte.
-                                </span>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{ route('race.organizer.ro.edit', ['id' => $ro->id]) }}" class="btn btn-primary btn-sm"><i class="far fa-edit"></i></a>
+                <div class="row">
+                    @foreach ($race->registration_opportunities as $ro)
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $ro->description }}</h5>
+    
+                                <dl class="row">
+                                    <dt class="col-sm-6 col-md-4">Dates d'ouverture</dt>
+                                    <dd class="col-sm-6 col-md-8">
+                                        @if($ro->from == null && $ro->to == null)
+                                        Jusqu'à la course
+                                        @elseif($ro->from == null)
+                                        Jusqu'au <strong>@human_date($ro->to, 'long', 'short')</strong>
+                                        @elseif($ro->to == null)
+                                        À partir du <strong>@human_date($ro->from, 'long', 'short')</strong>
+                                        @else
+                                        Du <strong>@human_date($ro->from, 'long', 'short')</strong><br>
+                                        au <strong>@human_date($ro->to, 'long', 'short')</strong>
+                                        @endif
+
+                                        <hr>
+
+                                        @if($ro->teasing)
+                                        <span class="text-warning">Afficher en dehors de la période d'ouverture</span>
+                                        @else
+                                        Ne pas afficher en dehors de la période d'ouverture
+                                        @endif
+                                    </dd>
+
+
+                                    <dt class="col-sm-6 col-md-4">Tarifs et limites</dt>
+                                    <dd class="col-sm-6 col-md-8">
+                                        @currency($ro->fee_per_team) / équipe (limite : {{ $ro->team_limit ?? '∞' }})<br>
+                                        @currency($ro->fee_per_pilot) / pilote (limite : {{ $ro->pilot_limit ?? '∞' }})<br>
+                                        @currency($ro->fee_per_soapbox) / caisse à savon (limite : {{ $ro->soapbox_limit ?? '∞' }})
+                                        <hr>
+                                        @if($ro->soft_limits)
+                                        <span class="text-danger">
+                                            Les inscriptions sont encore possibles après
+                                            qu'une des limites est atteinte.
+                                        </span>
+                                        @else
+                                        <span class="text-warning">
+                                            Les inscriptions sont automatiquement fermées dès
+                                            que l'une des limites est atteinte.
+                                        </span>
+                                        @endif
+                                    </dd>
+
+
+                                    <dt class="col-sm-6 col-md-4">Commentaire concernant le paiement</dt>
+                                    <dd class="col-sm-6 col-md-8">
+                                        @linebreaks($ro->comment_on_payment ?? 'Aucun commentaire...')
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="{{ route('race.organizer.ro.edit', ['id' => $ro->id]) }}" class="btn btn-primary btn-sm"><i class="far fa-edit"></i> Modifier</a>
                                 @unless($ro->teams()->count())
                                 <a href="{{ route('race.organizer.ro.delete', ['id' => $ro->id]) }}" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
                                 @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                        <tr class="text-center">
-                            <td colspan="4"><a href="{{ route('race.organizer.ro.new') }}" class="btn btn-success">Nouvelle opportunité</a></td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

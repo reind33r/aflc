@@ -31,6 +31,7 @@ class EditRORequest extends FormRequest
             'from__time' => 'nullable|date_format:H:i|required_with:from__date',
             'to__date' => 'nullable|date|required_with:to__time',
             'to__time' => 'nullable|date_format:H:i|required_with:to__date',
+            'comment_on_payment' => 'nullable|string',
             'team_limit' => 'nullable|integer|min:0',
             'soapbox_limit' => 'nullable|integer|min:0',
             'pilot_limit' => 'nullable|integer|min:0',

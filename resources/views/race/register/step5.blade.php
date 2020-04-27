@@ -13,7 +13,18 @@
     'has_error' => False,
 ])
 
-{{-- <table class="table table-sm">
+<div class="card mb-4">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-6 col-md-3">Rappel du tarif choisi</dt>
+            <dd class="col-sm-6 col-md-9">
+                {{ $team->registration_opportunity->description }}
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<table class="table">
     <thead>
         <tr>
             <th></th>
@@ -26,20 +37,20 @@
         <tr>
             <th>Frais d'inscription fixes</th>
             <td>1</td>
-            <td>@currency($ro->fee_per_team)</td>
-            <td>@currency($ro->fee_per_team)</td>
+            <td>@currency($team->registration_opportunity->fee_per_team)</td>
+            <td>@currency($team->registration_opportunity->fee_per_team)</td>
         </tr>
         <tr>
             <th>Pilotes</th>
-            <td>{{ (count($registration_form_data->get('pilots')) +  ($registration_form_data->get('captain_is_pilot') ? 1 : 0)) }}</td>
-            <td>@currency($ro->fee_per_pilot)</td>
-            <td>@currency((count($registration_form_data->get('pilots')) +  ($registration_form_data->get('captain_is_pilot') ? 1 : 0)) * $ro->fee_per_pilot)</td>
+            <td>{{ $team->pilotCount }}</td>
+            <td>@currency($team->registration_opportunity->fee_per_pilot)</td>
+            <td>@currency($team->pilotCount * $team->registration_opportunity->fee_per_pilot)</td>
         </tr>
         <tr>
             <th>Caisses à savon</th>
-            <td>{{ count($registration_form_data->get('soapboxes')) }}</td>
-            <td>@currency($ro->fee_per_soapbox)</td>
-            <td>@currency(count($registration_form_data->get('soapboxes')) * $ro->fee_per_soapbox)</td>
+            <td>{{ $team->soapboxCount }}</td>
+            <td>@currency($team->registration_opportunity->fee_per_soapbox)</td>
+            <td>@currency($team->soapboxCount * $team->registration_opportunity->fee_per_soapbox)</td>
         </tr>
     </tbody>
     <tfoot class="lead">
@@ -47,22 +58,26 @@
             <th colspan="3">Total</th>
             <td class="font-weight-bold">
                 @currency(
-                    $ro->fee_per_team +
-                    (count($registration_form_data->get('pilots')) +  ($registration_form_data->get('captain_is_pilot') ? 1 : 0)) * $ro->fee_per_pilot +
-                    count($registration_form_data->get('soapboxes')) * $ro->fee_per_soapbox
+                    $team->registration_opportunity->fee_per_team +
+                    $team->pilotCount * $team->registration_opportunity->fee_per_pilot +
+                    $team->soapboxCount * $team->registration_opportunity->fee_per_soapbox
                 )
             </td>
         </tr>
     </tfoot>
-</table> --}}
+</table>
 
 <p>
-    Le paiement en ligne n'est pas encore disponible.
+    Le paiement en ligne n'est pas disponible.
 </p>
 
-<p>
-    {!! nl2br(e('À venir...')) !!}
-</p>
+<div class="card mb-5">
+    <div class="card-body">
+        <h5 class="card-title">Commentaires de l'organisateur concernant le paiement</h5>
 
-<a href="{{ route('race.myteam') }}" class="btn btn-primary">Valider</a>
+        @linebreaks($team->registration_opportunity->comment_on_payment)
+    </div>
+</div>
+
+<a href="{{ route('race.myteam') }}" class="btn btn-primary">OK</a>
 @endsection

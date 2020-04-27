@@ -25,6 +25,7 @@ class CreateRegistrationOpportunitiesTable extends Migration
             $table->unsignedSmallInteger('fee_per_team');
             $table->unsignedSmallInteger('fee_per_pilot');
             $table->unsignedSmallInteger('fee_per_soapbox');
+            $table->text('comment_on_payment')->nullable();
 
             $table->boolean('soft_limits')->default(false);
             $table->unsignedTinyInteger('team_limit')->nullable()->default(null);

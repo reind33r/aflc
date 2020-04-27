@@ -12,18 +12,13 @@ Mon équipe
     <h1 class="font-italic">Mon équipe</h1>
 
     <dl class="row mb-0">
-        <dt class="col-sm-3">Nom de l'équipe</dt>
-        <dd class="col-sm-9">
+        <dt class="col-sm-6 col-md-3">Nom de l'équipe</dt>
+        <dd class="col-sm-6 col-md-9">
             {{ $team->name }}
         </dd>
     
-        <dt class="col-sm-3">Inscription</dt>
-        <dd class="col-sm-9">
-            {{ $team->registration_opportunity->description }}
-        </dd>
-    
-        <dt class="col-sm-3">Statut</dt>
-        <dd class="col-sm-9">
+        <dt class="col-sm-6 col-md-3">Statut</dt>
+        <dd class="col-sm-6 col-md-9">
             @lang('keys.' . $team->status)
         </dd>
     </dl>
@@ -63,22 +58,22 @@ Mon équipe
         </p>
         
         <dl class="row">
-            <dt class="col-sm-3">Nom</dt>
-            <dd class="col-sm-9">
+            <dt class="col-sm-6 col-md-3">Nom</dt>
+            <dd class="col-sm-6 col-md-9">
                 @lang('keys.' . $team->captain->honorific_prefix)
                 {{ $team->captain->first_name }}
                 {{ $team->captain->last_name }}
             </dd>
           
-            <dt class="col-sm-3">Informations de contact</dt>
-            <dd class="col-sm-9">
+            <dt class="col-sm-6 col-md-3">Informations de contact</dt>
+            <dd class="col-sm-6 col-md-9">
                 {{ $team->captain->email }}
                 <br>
                 @phone($team->captain->contact_info->mobile_phone)
             </dd>
           
-            <dt class="col-sm-3">Adresse postale</dt>
-            <dd class="col-sm-9">
+            <dt class="col-sm-6 col-md-3">Adresse postale</dt>
+            <dd class="col-sm-6 col-md-9">
                 {!! nl2br(e($team->captain->contact_info->address)) !!}
                 <br>
                 {{ $team->captain->contact_info->zip_code }}
@@ -97,6 +92,17 @@ Mon équipe
     </div>
     <div class="col-lg-6">
         <h3>Paiement</h3>
+
+        <dl class="row mb-0">
+            <dt class="col-sm-6 col-md-4">Tarif choisi</dt>
+            <dd class="col-sm-6 col-md-8">
+                {{ $team->registration_opportunity->description }}
+            </dd>
+            <dt class="col-sm-6 col-md-4">Commentaire de l'organisateur</dt>
+            <dd class="col-sm-6 col-md-8">
+                @linebreaks($team->registration_opportunity->comment_on_payment ?? 'Aucun commentaire')
+            </dd>
+        </dl>
     </div>
 </div>
 

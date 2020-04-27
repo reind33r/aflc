@@ -4,10 +4,14 @@
 
 Check hard limits at each step (jeton ?)
 
-Payment : make the views
-+ Online payment (Stripe?)
+Payment view (step 5): use new methods on Team Model (blablablaAttribute)
 
 TeamPilot / TeamSoapbox ---> updates parent timestamps
+
+## Payments
+
+Model logic...
+Online payment (Stripe?)
 
 ## Validation
 

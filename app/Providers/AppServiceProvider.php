@@ -48,5 +48,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('currency', function ($expression) {
             return "<?php require_once(app_path('Helpers/CurrencyFormat.php')); echo \App\Helpers\CurrencyFormat::format({$expression}); ?>";
         });
+
+        Blade::directive('linebreaks', function ($expression) {
+            return "<?php require_once(app_path('Helpers/Linebreaks.php')); echo \App\Helpers\Linebreaks::format({$expression}); ?>";
+        });
     }
 }

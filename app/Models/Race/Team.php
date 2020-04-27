@@ -91,4 +91,47 @@ class Team extends Model {
     public function getIsCompleteAttribute() {
         return False;
     }
+
+
+
+
+    /**
+     * Get pilot count
+     */
+    public function pilotCount() {
+        return $this->hasOne('App\Models\Race\TeamPilot')
+                    ->selectRaw('team_id, COUNT(*) AS aggregate')
+                    ->groupBy('team_id');
+    }
+
+    public function getPilotCountAttribute() {
+        if (!$this->relationLoaded('pilotCount')) {
+            $this->load('pilotCount');
+        }
+
+        $related = $this->getRelation('pilotCount');
+
+        // then return the count directly
+        return ($related) ? (int) $related->aggregate : 0;
+    }
+
+    /**
+     * Get soapbox count
+     */
+    public function soapboxCount() {
+        return $this->hasOne('App\Models\Race\TeamSoapbox')
+                    ->selectRaw('team_id, COUNT(*) AS aggregate')
+                    ->groupBy('team_id');
+    }
+
+    public function getSoapboxCountAttribute() {
+        if (!$this->relationLoaded('soapboxCount')) {
+            $this->load('soapboxCount');
+        }
+
+        $related = $this->getRelation('soapboxCount');
+
+        // then return the count directly
+        return ($related) ? (int) $related->aggregate : 0;
+    }
 }

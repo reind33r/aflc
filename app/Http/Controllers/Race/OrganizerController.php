@@ -75,6 +75,7 @@ class OrganizerController extends Controller
         $ro->fee_per_team = ceil($validated['fee_per_team'] * 100);
         $ro->fee_per_pilot = ceil($validated['fee_per_pilot'] * 100);
         $ro->fee_per_soapbox = ceil($validated['fee_per_soapbox'] * 100);
+        $ro->comment_on_payment = $validated['comment_on_payment'];
 
         $ro->save();
 
@@ -123,6 +124,7 @@ class OrganizerController extends Controller
             $ro->fee_per_pilot = ceil($validated['fee_per_pilot'] * 100);
             $ro->fee_per_soapbox = ceil($validated['fee_per_soapbox'] * 100);
         }
+        $ro->comment_on_payment = $validated['comment_on_payment'];
 
         $ro->save();
 

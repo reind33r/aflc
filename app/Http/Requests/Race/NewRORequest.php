@@ -34,6 +34,7 @@ class NewRORequest extends FormRequest
             'fee_per_team' => 'required|numeric',
             'fee_per_pilot' => 'required|numeric',
             'fee_per_soapbox' => 'required|numeric',
+            'comment_on_payment' => 'nullable|string',
             'team_limit' => 'nullable|integer|min:0',
             'soapbox_limit' => 'nullable|integer|min:0',
             'pilot_limit' => 'nullable|integer|min:0',
