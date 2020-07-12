@@ -1,11 +1,15 @@
 @extends('app')
 
 @section('title')
-Suivi des inscriptions
+Gestion des inscriptions
 @endsection
 
 @section('content')
-<h1>Suivi des inscriptions</h1>
+<h1>Gestion des inscriptions</h1>
+
+<p>
+    <a href="{{ route('race.organizer') }}" class="btn btn-secondary">Retour</a>
+</p>
 
 <table class="table">
     <thead>
@@ -16,7 +20,7 @@ Suivi des inscriptions
         </tr>
     </thead>
     <tbody>
-        @forelse ($pending_teams as $team)
+        @forelse ($teams as $team)
         <tr>
             <td>
                 {{ $team->name }}

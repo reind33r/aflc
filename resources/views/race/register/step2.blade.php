@@ -31,7 +31,7 @@
             @input([
                 'name' => 'captain_birthday',
                 'type' => 'date',
-                'required' => True,
+                'required' => false,
                 'initial' => $registration_form_data->get('captain_birthday') ? $registration_form_data->get('captain_birthday')->format('Y-m-d') : '',
             ])
             Date de naissance

@@ -82,4 +82,13 @@ class Race extends Model {
                           ->where('from', '>', now());
                     });
     }
+
+
+
+    /**
+     * Get pilot documents
+     */
+    public function pilotDocuments() {
+        return $this->hasMany('App\Models\Race\PilotDocument', 'race_subdomain', 'subdomain');
+    }
 }

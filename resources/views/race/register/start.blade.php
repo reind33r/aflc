@@ -40,7 +40,7 @@ Inscription à la course
                         <div class="custom-control custom-radio">
                             <input type="radio" id="registration_opportunity_{{ $ro->id }}"
                                    name="registration_opportunity_id" value="{{ $ro->id }}"
-                                   class="custom-control-input" @if($ro->from > now() || $ro->is_limit_reached) disabled @endif
+                                   class="custom-control-input" @if($ro->from > now() || ($ro->is_limit_reached && !$ro->soft_limits)) disabled @endif
                                    @if($registration_form_data->get('registration_opportunity_id') == $ro->id) checked @endif
                             >
                             <label class="custom-control-label" for="registration_opportunity_{{ $ro->id }}">{{ $ro->description }}</label>

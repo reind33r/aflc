@@ -157,4 +157,10 @@ class OrganizerController extends Controller
         flash('L\'opportunité d\'inscription a été supprimée.')->success();
         return redirect()->route('race.organizer.configuration');
     }
+
+    public function showNewPDForm(Request $request) {
+
+        return view('race.organizer.pd.new', [
+        ]);
+    }
 }

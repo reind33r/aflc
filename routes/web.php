@@ -11,7 +11,7 @@
 |
 */
 
-Route::domain(env('APP_DOMAIN'))->group(function () {
+Route::domain('aflc.'.env('APP_DOMAIN'))->group(function () {
     Route::get('/', 'HomeController@home')->name('home');
 
     Auth::routes(['verify' => true]);
@@ -51,6 +51,8 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
         Route::get('/configuration', 'Race\OrganizerController@configuration')->name('race.organizer.configuration');
         Route::post('/configuration/race_information', 'Race\OrganizerController@handleRaceInfo')->name('race.organizer.configuration.handleRaceInfo');
         
+        Route::get('/configuration/pilot_documents/add', 'Race\OrganizerController@showNewPDForm')->name('race.organizer.pd.new');
+
         Route::get('/configuration/ro/new', 'Race\OrganizerController@showNewROForm')->name('race.organizer.ro.new');
         Route::post('/configuration/ro/new', 'Race\OrganizerController@handleNewRO')->name('race.organizer.ro.new');
         Route::get('/configuration/ro/{id}', 'Race\OrganizerController@showEditROForm')->name('race.organizer.ro.edit');
@@ -58,8 +60,13 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
         Route::get('/configuration/ro/{id}/delete', 'Race\OrganizerController@showDeleteROForm')->name('race.organizer.ro.delete');
         Route::post('/configuration/ro/{id}/delete', 'Race\OrganizerController@handleDeleteRO')->name('race.organizer.ro.delete');
 
+        // Registrations
+        Route::prefix('/registrations')->group(function() {
+            Route::get('/', 'Race\RegistrationOrganizerController@list')->name('race.organizer.registrations');
+        });
+
         // CMS
-        Route::prefix('/cms')->middleware('use_organizer_guard', 'can:organize,race')->group(function() {
+        Route::prefix('/cms')->group(function() {
             Route::get('/', 'CMS\OrganizerController@overview')->name('cms.organizer');
 
             Route::get('/menu', 'CMS\MenuController@showEditForm')->name('cms.menu.edit');

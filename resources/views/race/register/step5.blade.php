@@ -68,7 +68,7 @@
 </table>
 
 <p>
-    Le paiement en ligne n'est pas disponible.
+    Le paiement en ligne n'est pas encore disponible.
 </p>
 
 <div class="card mb-5">

@@ -12,7 +12,7 @@ class RegistrationOpportunity extends Model {
     ];
 
     /**
-     * Get organizer
+     * Get race
      */
     public function race() {
         return $this->belongsTo('App\Models\Race\Race');

@@ -12,7 +12,7 @@ Organisation de la course
 </p>
 
 <nav class="row justify-content-around align-items-center">
-    <a href="" class="btn btn-warning btn-lg">
+    <a href="{{ route('race.organizer.registrations') }}" class="btn btn-warning btn-lg">
         Inscriptions<br>
         <small>Dossiers et paiements</small>
     </a>

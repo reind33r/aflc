@@ -15,6 +15,7 @@
     @csrf
     <input type="hidden" name="step" value="4">
 
+    <h3>Équipe</h3>
     <div class="row">
         <div class="col-md-6">
             @input([
@@ -46,6 +47,7 @@
     @checkbox([
         'name' => 'captain_check',
         'wrap_label_tag' => 'h3',
+        'required' => True,
     ])
         Capitaine d'équipe
     @endcheckbox
@@ -84,6 +86,7 @@
             @checkbox([
                 'name' => 'pilots_check',
                 'wrap_label_tag' => 'h3',
+                'required' => True,
             ])
                 Pilotes
             @endcheckbox
@@ -122,6 +125,7 @@
             @checkbox([
                 'name' => 'soapboxes_check',
                 'wrap_label_tag' => 'h3',
+                'required' => True,
             ])
                 Caisses à savon
             @endcheckbox
@@ -143,6 +147,7 @@
     @checkbox([
         'name' => 'payment_check',
         'wrap_label_tag' => 'h3',
+        'required' => True,
     ])
         Paiement
     @endcheckbox

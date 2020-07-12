@@ -108,7 +108,7 @@ class RegistrationRequest extends FormRequest
                 if(!$ro->isOpen) {
                     $validator->errors()->add('registration_opportunity_id', 'La période d\'inscription est terminée.');
                 }
-                if($ro->isLimitReached) {
+                if($ro->isLimitReached && !$ro->soft_limits) {
                     $validator->errors()->add('registration_opportunity_id', 'La limite d\'inscriptions est déjà atteinte.');
                 }
             }

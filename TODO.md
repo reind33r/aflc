@@ -13,6 +13,13 @@ TeamPilot / TeamSoapbox ---> updates parent timestamps
 Model logic...
 Online payment (Stripe?)
 
+## Teams
+
+TeamPilot: validate documents too?
+TeamSoapbox: contrôle technique ?
+
+--> customizable fields (Race <- Custom{Pilot,Soapbox}Field <- m2m -> Team|TeamPilot|TeamSoapbox)
+
 ## Validation
 
 better code : input transformation / sanitization : not in controller

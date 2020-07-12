@@ -13,4 +13,8 @@ return [
     'validated' => 'Inscription validée',
     'refused' => 'Inscription refusée',
     'pending' => 'En attente',
+
+    'template' => 'Modèle à remplir',
+    'auto_template' => 'Modèle personnalisé',
+    'external' => 'Fourni par le pilote',
 ];

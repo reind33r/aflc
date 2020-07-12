@@ -4,6 +4,7 @@
     <textarea name="{{ $name }}" id="{{ $name }}"
         class="form-control @error($name) is-invalid @enderror"
         @if($required ?? true) required @endif
+        @if($disabled ?? false) disabled @endif
         @if($autofocus ?? false) autofocus @endif
         @if($autocomplete ?? false) autocomplete="{{ $autocomplete }}" @endif>{{ old($name, $initial ?? '') }}</textarea>
 

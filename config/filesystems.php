@@ -31,6 +31,7 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
         public_path('cms') => storage_path('app/cms'),
+        public_path('race') => storage_path('app/race'),
     ],
 
     /*
