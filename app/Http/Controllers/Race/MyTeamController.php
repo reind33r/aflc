@@ -7,8 +7,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Race\Team;
+
+use App\Models\Race\PilotDocument;
 
 class MyTeamController extends Controller
 {
@@ -22,5 +25,13 @@ class MyTeamController extends Controller
         return view('race.myteam.overview', [
             'team' => $team,
         ]);
+    }
+
+    public function downloadPD(Request $request) {
+        $pd = PilotDocument::where('id', $request->route('id'))
+                            ->where('race_subdomain', $request->route('race')->subdomain)
+                            ->firstOrFail();
+        
+        return Storage::download($pd->template_url, $pd->description.'.'.pathinfo($pd->template_url)['extension']);
     }
 }

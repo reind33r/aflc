@@ -72,7 +72,7 @@ Configuration
                         <strong>[@lang('keys.'.$pd->type)]</strong>
                         <br>
                         @if($pd->type == 'template')
-                        <a href="{{ $pd->download_path }}">Télécharger</a> –
+                        <a href="{{ route('race.organizer.pd.download', ['id'=>$pd->id]) }}">Télécharger</a> –
                         @endif
                         <a href="">Modifier</a> – <a class="text-danger" href="">Supprimer</a>
                     </li>

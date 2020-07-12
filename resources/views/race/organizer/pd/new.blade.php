@@ -15,7 +15,7 @@ Nouveau document pilote
     Les pilotes auront accès à ce document dans leur espace, et pourront le renvoyer complété.
 </p>
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     @csrf
 
     @input([

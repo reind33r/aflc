@@ -9,8 +9,8 @@
         @unless($required ?? false)
         <option value=""></option>
         @endif
-        @foreach ($options ?? [] as $option => $name)
-        <option value="{{ $option }}" @if(old($name, $initial ?? '') == $option) selected @endif>{{ $name }}</option>
+        @foreach ($options ?? [] as $option => $o_name)
+        <option value="{{ $option }}" @if(old($name, $initial ?? '') == $option) selected @endif>{{ $o_name }}</option>
         @endforeach
     </select>
 

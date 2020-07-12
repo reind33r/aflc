@@ -9,8 +9,10 @@ use App\Http\Requests\ConfirmDeleteRequest;
 use App\Http\Requests\Race\RaceInfoRequest;
 use App\Http\Requests\Race\NewRORequest;
 use App\Http\Requests\Race\EditRORequest;
+use App\Http\Requests\Race\NewPDRequest;
 
 use App\Models\Race\RegistrationOpportunity;
+use App\Models\Race\PilotDocument;
 
 use Carbon\Carbon;
 
@@ -159,8 +161,28 @@ class OrganizerController extends Controller
     }
 
     public function showNewPDForm(Request $request) {
-
         return view('race.organizer.pd.new', [
         ]);
+    }
+
+    public function handleNewpd(NewPDRequest $request) {
+        $validated = $request->validated();
+    
+        $pd = new PilotDocument();
+        $pd->race_subdomain = $request->route('race')->subdomain;
+        $pd->description = $validated['description'];
+        $pd->type = $validated['type'];
+
+        if($pd->type == 'template') {
+            $dir = 'race/space' . $request->route('race')->organizer_id . '/pilot_documents';
+            $path = $request->file('template_file')->store($dir);
+            $pd->template_url = $path;
+        }
+        // TODO: auto_template
+
+        $pd->save();
+
+        flash('Le document "'. $pd->description .'" a bien été ajouté.')->success();
+        return redirect()->route('race.organizer.configuration');
     }
 }

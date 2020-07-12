@@ -15,12 +15,4 @@ class PilotDocument extends Model {
     public function race() {
         return $this->belongsTo('App\Models\Race\Race');
     }
-
-
-    /**
-     * Get link to download (if type == template)
-     */
-    public function getDownloadPathAttribute() {
-        return 'race/space' . $this->race->organizer_id . '/pilot_documents/' . $this->template_url;
-    }
 }
