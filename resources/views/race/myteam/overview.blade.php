@@ -93,16 +93,24 @@ Mon équipe
     <div class="col-lg-6">
         <h3>Paiement</h3>
 
-        <dl class="row mb-0">
-            <dt class="col-sm-6 col-md-4">Tarif choisi</dt>
-            <dd class="col-sm-6 col-md-8">
-                {{ $team->registration_opportunity->description }}
-            </dd>
-            <dt class="col-sm-6 col-md-4">Commentaire de l'organisateur</dt>
-            <dd class="col-sm-6 col-md-8">
-                @linebreaks($team->registration_opportunity->comment_on_payment ?? 'Aucun commentaire')
-            </dd>
-        </dl>
+        <p>
+            @if($team->payments()->sum('amount') == $team->totalFee)
+            <i class="fas fa-check-circle text-success"></i>
+            @elseif($team->payments()->sum('amount') < $team->totalFee)
+            <i class="fas fa-exclamation-triangle text-warning"></i>
+            @else
+            <i class="fas fa-exclamation-circle text-danger"></i>
+            @endif
+            @currency($team->payments()->sum('amount')) reçus sur @currency($team->totalFee)
+            <br>
+            <a href="{{ route('race.myteam.invoice') }}" class="btn btn-primary btn-sm">Détails</a>
+        </p>
+
+        @if($team->payments()->sum('amount') > $team->totalFee)
+        <p class="alert alert-danger">
+            Contacte un organisateur pour régulariser la situation.
+        </p>
+        @endif
     </div>
 </div>
 

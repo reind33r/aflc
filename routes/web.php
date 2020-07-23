@@ -42,6 +42,7 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
     // Captains
     Route::middleware('can:captain,race')->group(function() {
         Route::get('/my_team', 'Race\MyTeamController@showOverview')->name('race.myteam');
+        Route::get('/my_team/invoice', 'Race\MyTeamController@showInvoice')->name('race.myteam.invoice');
         Route::get('/my_team/pilot_documents/{pilot_document_id}-{user_id}/download', 'Race\MyTeamController@downloadPD')->name('race.myteam.pd_download');
     });
 

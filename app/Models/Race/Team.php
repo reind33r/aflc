@@ -38,6 +38,14 @@ class Team extends Model {
         return $this->hasMany('App\Models\Race\TeamSoapbox');
     }
 
+
+    /**
+     * Get all payments for the team
+     */
+    public function payments() {
+        return $this->hasMany('App\Models\Race\Payment');
+    }
+
     public function getHtmlTeamCommentsAttribute() {
         if(empty($this->team_comments)) {
             return null;
@@ -133,5 +141,15 @@ class Team extends Model {
 
         // then return the count directly
         return ($related) ? (int) $related->aggregate : 0;
+    }
+
+
+    /**
+     * Payment-related
+     */
+    public function getTotalFeeAttribute() {
+        return ($this->registration_opportunity->fee_per_team +
+                $this->pilotCount * $this->registration_opportunity->fee_per_pilot +
+                $this->soapboxCount * $this->registration_opportunity->fee_per_soapbox);
     }
 }

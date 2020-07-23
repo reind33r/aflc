@@ -27,12 +27,24 @@ class MyTeamController extends Controller
         ]);
     }
 
+    public function showInvoice(Request $request) {
+        $team = Team::where('captain_id', Auth::user()->id)
+                    ->whereHas('registration_opportunity', function($q) use($request) {
+                        $q->where('race_subdomain', $request->route('race')->subdomain);
+                    })
+                    ->first();
+
+        return view('race.myteam.invoice', [
+            'team' => $team,
+        ]);
+    }
+
     public function downloadPD(Request $request) {
         $pd = PilotDocument::where('id', $request->route('pilot_document_id'))
                             ->where('race_subdomain', $request->route('race')->subdomain)
                             ->firstOrFail();
         
-        // TODO : customize selon pilote :)
+        // TODO : customize selon pilote :) ATTENTION CHECK PILOT ID IN TEAM ;)
 
         return Storage::download($pd->template_url, $pd->description.'.'.pathinfo($pd->template_url)['extension']);
     }

@@ -57,11 +57,7 @@
         <tr>
             <th colspan="3">Total</th>
             <td class="font-weight-bold">
-                @currency(
-                    $team->registration_opportunity->fee_per_team +
-                    $team->pilotCount * $team->registration_opportunity->fee_per_pilot +
-                    $team->soapboxCount * $team->registration_opportunity->fee_per_soapbox
-                )
+                @currency($team->totalFee)
             </td>
         </tr>
     </tfoot>
