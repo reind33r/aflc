@@ -32,6 +32,8 @@ class MyTeamController extends Controller
                             ->where('race_subdomain', $request->route('race')->subdomain)
                             ->firstOrFail();
         
+        // TODO : customize selon pilote :)
+
         return Storage::download($pd->template_url, $pd->description.'.'.pathinfo($pd->template_url)['extension']);
     }
 }

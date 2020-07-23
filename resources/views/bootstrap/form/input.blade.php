@@ -12,7 +12,7 @@
     @endif
 
     <input type="{{ $type ?? 'text' }}" name="{{ $name }}" id="{{ $name }}" value="{{ old($name, $initial ?? '') }}"
-        class="form-control @error(array_name_2_dotted($name)) is-invalid @enderror"
+        class="@if($type == 'file') form-control-file @else form-control @endif @error(array_name_2_dotted($name)) is-invalid @enderror"
         @if($required ?? true) required @endif
         @if($autofocus ?? false) autofocus @endif
         @if($disabled ?? false) disabled @endif

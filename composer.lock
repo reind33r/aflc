@@ -4,8 +4,84 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e8f26ee8ee33f73654ee92867fe6622",
+    "content-hash": "65946740bf39431924a4d29f53bbb272",
     "packages": [
+        {
+            "name": "awobaz/compoships",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/topclaudy/compoships.git",
+                "reference": "b4af46cba3c4e72521b85a8942e9d1def3d6c371"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/topclaudy/compoships/zipball/b4af46cba3c4e72521b85a8942e9d1def3d6c371",
+                "reference": "b4af46cba3c4e72521b85a8942e9d1def3d6c371",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/cache": "~5.4|~6.0|~7.0",
+                "illuminate/console": "~5.4|~6.0|~7.0",
+                "illuminate/database": "~5.4|~6.0|~7.0",
+                "illuminate/support": "~5.4|~6.0|~7.0",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "^1.8",
+                "laravel/laravel": "~5.4|~6.0|~7.0",
+                "phpunit/phpunit": "5.*"
+            },
+            "suggest": {
+                "awobaz/blade-active": "Blade directives for the Laravel 'Active' package",
+                "awobaz/eloquent-auto-append": "Automatically append accessors to model serialization",
+                "awobaz/eloquent-mutators": "Reusable mutators (getters/setters) for Laravel 5's Eloquent",
+                "awobaz/syntactic": "Syntactic sugar for named and indexed parameters call."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Awobaz\\Compoships\\ComposhipsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Awobaz\\Compoships\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Claudin J. Daniel",
+                    "email": "cdaniel@awobaz.com"
+                }
+            ],
+            "description": "Laravel relationships with support for composite/multiple keys",
+            "keywords": [
+                "laravel",
+                "laravel composite keys",
+                "laravel relationships"
+            ],
+            "funding": [
+                {
+                    "type": "custom"
+                },
+                {
+                    "type": "custom"
+                },
+                {
+                    "url": "https://paypal.me/awobaz\"] # Replace with up to 4 custom sponsorship URLs e.g.",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-07-16T19:38:56+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.8.14",
@@ -5553,5 +5629,6 @@
     "platform": {
         "php": "^7.2"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

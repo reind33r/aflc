@@ -5,10 +5,11 @@ namespace App\Models\Race;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class TeamPilot extends Pivot {
-    protected $fillable = ['team_id', 'user_id'];
-
-    // No created_at / updated_at columns
+    use \App\Traits\HasCompositePrimaryKey;
+    protected $primaryKey = ['team_id', 'user_id'];
     public $timestamps = False;
+
+    protected $fillable = ['team_id', 'user_id'];
 
     public function pilot()
     {

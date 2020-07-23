@@ -1,5 +1,7 @@
 # ToDo
 
+Problem with sameSite cookie (cf Firefox console)
+
 ## Registration
 
 Check hard limits at each step (jeton ?)
@@ -45,3 +47,8 @@ Make page on data use ("en savoir plus" lors du process registration)
 Gallery: delete (with look in DB to see if it's used?)
 
 Integrate gallery with editor (see existing plugins)
+
+
+# Pour une v2
+
+PilotDocument dans Registration Opportunity

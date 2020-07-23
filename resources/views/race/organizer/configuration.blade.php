@@ -74,7 +74,9 @@ Configuration
                         @if($pd->type == 'template')
                         <a href="{{ route('race.organizer.pd.download', ['id'=>$pd->id]) }}">Télécharger</a> –
                         @endif
-                        <a href="">Modifier</a> – <a class="text-danger" href="">Supprimer</a>
+                        <a href="{{ route('race.organizer.pd.edit', ['id'=>$pd->id]) }}">Modifier</a>
+                        –
+                        <a class="text-danger" href="{{ route('race.organizer.pd.delete', ['id'=>$pd->id]) }}">Supprimer</a>
                     </li>
                     @empty
                         
@@ -82,7 +84,7 @@ Configuration
                 </ul>
 
                 <p>
-                    <a href="{{ route('race.organizer.pd.new') }}" class="text-success">Ajouter un document</a>
+                    <a href="{{ route('race.organizer.pd.new') }}" class="btn btn-success">Ajouter un document</a>
                 </p>
             </div>
         </div>

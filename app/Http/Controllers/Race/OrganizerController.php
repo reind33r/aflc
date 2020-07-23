@@ -10,11 +10,14 @@ use App\Http\Requests\Race\RaceInfoRequest;
 use App\Http\Requests\Race\NewRORequest;
 use App\Http\Requests\Race\EditRORequest;
 use App\Http\Requests\Race\NewPDRequest;
+use App\Http\Requests\Race\EditPDRequest;
 
 use App\Models\Race\RegistrationOpportunity;
 use App\Models\Race\PilotDocument;
 
 use Carbon\Carbon;
+
+use Illuminate\Support\Facades\Storage;
 
 class OrganizerController extends Controller
 {
@@ -165,7 +168,7 @@ class OrganizerController extends Controller
         ]);
     }
 
-    public function handleNewpd(NewPDRequest $request) {
+    public function handleNewPD(NewPDRequest $request) {
         $validated = $request->validated();
     
         $pd = new PilotDocument();
@@ -183,6 +186,69 @@ class OrganizerController extends Controller
         $pd->save();
 
         flash('Le document "'. $pd->description .'" a bien été ajouté.')->success();
+        return redirect()->route('race.organizer.configuration');
+    }
+
+    public function showEditPDForm(Request $request) {
+        $pd = PilotDocument::where('id', $request->route('id'))
+                            ->where('race_subdomain', $request->route('race')->subdomain)
+                            ->firstOrFail();
+
+        return view('race.organizer.pd.edit', [
+            'pd' => $pd
+        ]);
+    }
+
+    public function handleEditPD(EditPDRequest $request) {
+        $validated = $request->validated();
+
+        $pd = PilotDocument::where('id', $request->route('id'))
+                            ->where('race_subdomain', $request->route('race')->subdomain)
+                            ->firstOrFail();
+
+        $pd->race_subdomain = $request->route('race')->subdomain;
+        $pd->description = $validated['description'];
+        $pd->type = $validated['type'];
+
+        if($pd->type == 'template' && $request->file('template_file')) {
+            $dir = 'race/space' . $request->route('race')->organizer_id . '/pilot_documents';
+            $path = $request->file('template_file')->store($dir);
+
+            Storage::delete($pd->template_url);
+
+            $pd->template_url = $path;
+        }
+
+        // TODO: auto_template
+
+        $pd->save();
+
+        flash('Le document "'. $pd->description .'" a bien été modifié.')->success();
+        return redirect()->route('race.organizer.configuration');
+    }
+
+    public function showDeletePDForm(Request $request) {
+        $pd = PilotDocument::where('id', $request->route('id'))
+                            ->where('race_subdomain', $request->route('race')->subdomain)
+                            ->firstOrFail();
+
+        return view('race.organizer.pd.delete', [
+            'pd' => $pd,
+        ]);
+    }
+
+    public function handleDeletePD(ConfirmDeleteRequest $request) {
+        $pd = PilotDocument::where('id', $request->route('id'))
+                            ->where('race_subdomain', $request->route('race')->subdomain)
+                            ->firstOrFail();
+
+        if($pd->type == 'template') {
+            Storage::delete($pd->template_url);
+        }
+
+        $pd->delete();
+
+        flash('Le document pilote a été supprimé.')->success();
         return redirect()->route('race.organizer.configuration');
     }
 }

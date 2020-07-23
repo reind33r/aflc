@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePilotDocumentsTable extends Migration
+class CreatePilotDocumentsTables extends Migration
 {
     /**
      * Run the migrations.
@@ -27,6 +27,23 @@ class CreatePilotDocumentsTable extends Migration
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
         });
+
+
+        Schema::create('m2m_pilot_documents', function (Blueprint $table) {
+            $table->unsignedBigInteger('pilot_document_id');
+            $table->unsignedBigInteger('team_id');
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('pilot_document_id')
+                  ->references('id')->on('pilot_documents')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
+            $table->foreign(['team_id', 'user_id'])
+                  ->references(['team_id', 'user_id'])->on('team_pilot')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+        });
     }
 
     /**
@@ -37,5 +54,6 @@ class CreatePilotDocumentsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('pilot_documents');
+        Schema::dropIfExists('m2m_pilot_documents');
     }
 }

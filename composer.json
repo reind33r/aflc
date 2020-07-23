@@ -14,8 +14,8 @@
         "laracasts/flash": "^3.0",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
-        "rap2hpoutre/convert-accent-characters": "^0.2.0",
-        "laravel/ui": "^2.0"
+        "laravel/ui": "^2.0",
+        "rap2hpoutre/convert-accent-characters": "^0.2.0"
     },
     "require-dev": {
         "doctrine/dbal": "^2.10",

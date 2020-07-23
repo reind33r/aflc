@@ -54,6 +54,10 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
         Route::get('/configuration/pilot_documents/add', 'Race\OrganizerController@showNewPDForm')->name('race.organizer.pd.new');
         Route::post('/configuration/pilot_documents/add', 'Race\OrganizerController@handleNewPD')->name('race.organizer.pd.new');
         Route::get('/configuration/pilot_documents/{id}/download', 'Race\MyTeamController@downloadPD')->name('race.organizer.pd.download');
+        Route::get('/configuration/pilot_documents/{id}/edit', 'Race\OrganizerController@showEditPDForm')->name('race.organizer.pd.edit');
+        Route::post('/configuration/pilot_documents/{id}/edit', 'Race\OrganizerController@handleEditPD')->name('race.organizer.pd.edit');
+        Route::get('/configuration/pilot_documents/{id}/delete', 'Race\OrganizerController@showDeletePDForm')->name('race.organizer.pd.delete');
+        Route::post('/configuration/pilot_documents/{id}/delete', 'Race\OrganizerController@handleDeletePD')->name('race.organizer.pd.delete');
 
         Route::get('/configuration/ro/new', 'Race\OrganizerController@showNewROForm')->name('race.organizer.ro.new');
         Route::post('/configuration/ro/new', 'Race\OrganizerController@handleNewRO')->name('race.organizer.ro.new');

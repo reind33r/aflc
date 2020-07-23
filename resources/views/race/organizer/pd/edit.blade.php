@@ -1,11 +1,11 @@
 @extends('app')
 
 @section('title')
-Nouveau document pilote
+Éditer un document pilote
 @endsection
 
 @section('content')
-<h1>Nouveau document pilote</h1>
+<h1>Éditer un document pilote</h1>
 
 <p>
     <a href="{{ route('race.organizer.configuration') }}" class="btn btn-secondary">Retour</a>
@@ -15,6 +15,16 @@ Nouveau document pilote
     Les pilotes auront accès à ce document dans leur espace, et pourront le renvoyer complété.
 </p>
 
+@if($pd->team_pilots()->count())
+<div class="alert alert-warning">
+    <h5>Documents déjà reçus !</h5>
+
+    <p>
+        Vous avez déjà reçu {{ $pd->team_pilots()->count() }} {{ Str::plural('exemplaire', $pd->team_pilots()->count()) }} de ce document.
+    </p>
+</div>
+@endif
+
 <form method="POST" enctype="multipart/form-data">
     @csrf
 
@@ -23,6 +33,7 @@ Nouveau document pilote
         'type' => 'text',
         'required' => True,
         'help_text' => 'Nom du document : attestation d\'assurance responsabilité civile, autorisation parentale pour les mineurs, ...',
+        'initial' => $pd->description
     ])
     Description
     @endinput
@@ -35,6 +46,7 @@ Nouveau document pilote
             'external' => __('keys.external'),
         ],
         'required' => True,
+        'initial' => $pd->type
     ])
     Type
     @endselect
@@ -42,17 +54,20 @@ Nouveau document pilote
     @input([
         'name' => 'template_file',
         'type' => 'file',
-        'required' => False,
-        'help_text' => 'Privilégier le format PDF.'
+        'required' => False
     ])
     Modèle à remplir
+    @slot('help_text')
+    Laisser vide pour conserver le <a href="{{ route('race.organizer.pd.download', ['id'=>$pd->id]) }}">modèle actuel</a>. Privilégier le format PDF.
+    @endslot
     @endinput
 
     @textarea([
         'name' => 'auto_template',
         'required' => True,
         'disabled' => True,
-        'help_text' => 'Fonctionnalité non disponible. Utiliser le type "Modèle à remplir" en attendant.'
+        'help_text' => 'Fonctionnalité non disponible. Utiliser le type "Modèle à remplir" en attendant.',
+        'initial' => null,
     ])
     Contenu du modèle personnalisé
     @endtextarea
