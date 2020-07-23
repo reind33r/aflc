@@ -28,7 +28,7 @@ class MyTeamController extends Controller
     }
 
     public function downloadPD(Request $request) {
-        $pd = PilotDocument::where('id', $request->route('id'))
+        $pd = PilotDocument::where('id', $request->route('pilot_document_id'))
                             ->where('race_subdomain', $request->route('race')->subdomain)
                             ->firstOrFail();
         

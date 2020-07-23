@@ -39,9 +39,10 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
 
     Route::middleware('can:captain,race')->get('/register/5-payment', 'Race\PaymentController@showStep5')->name('race.register.step5');
 
-    // Registered users
+    // Captains
     Route::middleware('can:captain,race')->group(function() {
         Route::get('/my_team', 'Race\MyTeamController@showOverview')->name('race.myteam');
+        Route::get('/my_team/pilot_documents/{pilot_document_id}-{user_id}/download', 'Race\MyTeamController@downloadPD')->name('race.myteam.pd_download');
     });
 
     // Organizer
@@ -53,7 +54,7 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
         
         Route::get('/configuration/pilot_documents/add', 'Race\OrganizerController@showNewPDForm')->name('race.organizer.pd.new');
         Route::post('/configuration/pilot_documents/add', 'Race\OrganizerController@handleNewPD')->name('race.organizer.pd.new');
-        Route::get('/configuration/pilot_documents/{id}/download', 'Race\MyTeamController@downloadPD')->name('race.organizer.pd.download');
+        Route::get('/configuration/pilot_documents/{pilot_document_id}/download', 'Race\MyTeamController@downloadPD')->name('race.organizer.pd.download');
         Route::get('/configuration/pilot_documents/{id}/edit', 'Race\OrganizerController@showEditPDForm')->name('race.organizer.pd.edit');
         Route::post('/configuration/pilot_documents/{id}/edit', 'Race\OrganizerController@handleEditPD')->name('race.organizer.pd.edit');
         Route::get('/configuration/pilot_documents/{id}/delete', 'Race\OrganizerController@showDeletePDForm')->name('race.organizer.pd.delete');

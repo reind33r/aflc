@@ -127,8 +127,43 @@ Mon équipe
                     {{ $t_pilot->pilot->last_name }}
                 </h5>
 
-                Né@if($t_pilot->pilot->honorific_prefix == 'mme')e @endif
-                le @human_date($t_pilot->pilot->birthday)
+                <p>
+                    Né@if($t_pilot->pilot->honorific_prefix == 'mme')e @endif
+                    le @human_date($t_pilot->pilot->birthday)
+                </p>
+
+                @if($race->pilotDocuments()->count())
+                <table class="table table-bordered bg-white table-sm">
+                    <thead>
+                        <tr>
+                            <th>Documents</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($race->pilotDocuments as $pd)
+                        <tr>
+                            <td>
+                                @if($pd->type == 'template')
+                                <a href="{{ route('race.myteam.pd_download', ['pilot_document_id'=>$pd->id, 'user_id' => $t_pilot->user_id]) }}">
+                                @endif
+                                {{ $pd->description }}
+                                @if($pd->type == 'template')
+                                </a>
+                                @endif
+                            </td>
+                            <td>
+                                @if($t_pilot->isDocumentValid($pd))
+                                <i class="fas fa-check-circle text-success"></i> Reçu
+                                @else
+                                <i class="fas fa-exclamation-triangle text-warning"></i> En attente
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @endif
             </div>
         </div>
         @endforeach

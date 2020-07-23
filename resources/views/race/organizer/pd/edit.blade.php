@@ -58,7 +58,7 @@
     ])
     Modèle à remplir
     @slot('help_text')
-    Laisser vide pour conserver le <a href="{{ route('race.organizer.pd.download', ['id'=>$pd->id]) }}">modèle actuel</a>. Privilégier le format PDF.
+    Laisser vide pour conserver le <a href="{{ route('race.organizer.pd.download', ['pilot_document_id'=>$pd->id]) }}">modèle actuel</a>. Privilégier le format PDF.
     @endslot
     @endinput
 

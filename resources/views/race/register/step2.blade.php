@@ -17,7 +17,6 @@
     @csrf
     <input type="hidden" name="step" value="2">
 
-
     <div class="card mb-2">
         <div class="card-body">
             @checkbox([
@@ -60,6 +59,28 @@
     <p class="text-center">
         <button type="button" class="btn btn-success" data-action="formCollectionAdd" data-formCollection="pilots">Ajouter un pilote</button>
     </p>
+
+
+
+    @if($race->pilotDocuments()->count())
+    <div class="alert alert-info">
+        <h3>Documents à renvoyer</h3>
+
+        <p>
+            Pour information, chaque pilote devra fournir les documents suivants pour que le dossier soit complet :
+        </p>
+
+        <ul>
+            @foreach($race->pilotDocuments as $pd)
+            <li>{{ $pd->description }}</li>    
+            @endforeach
+        </ul>
+
+        <p>
+            Ces informations seront rappelées ultérieurement dans le processus d'inscription.
+        </p>
+    </div>
+    @endif
 
     <input type="submit" name="nextStep"
            value="Suivant" class="btn btn-primary">

@@ -4,6 +4,9 @@ namespace App\Models\Race;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
+use Illuminate\Support\Facades\DB;
+use App\Models\Race\PilotDocument;
+
 class TeamPilot extends Pivot {
     use \App\Traits\HasCompositePrimaryKey;
     protected $primaryKey = ['team_id', 'user_id'];
@@ -19,5 +22,13 @@ class TeamPilot extends Pivot {
     public function team()
     {
         return $this->belongsTo('App\Models\Race\Team', 'team_id', 'id');
+    }
+
+    public function isDocumentValid(PilotDocument $pd) {
+        return    DB::table('m2m_pilot_documents')
+                    ->where('user_id', $this->user_id)
+                    ->where('team_id', $this->team_id)
+                    ->where('pilot_document_id', $pd->id)
+                    ->exists();
     }
 }
