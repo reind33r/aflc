@@ -20,6 +20,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('edit-menu', require('./components/cms/menu/EditMenu.vue').default);
+Vue.component('registrations-list', require('./components/race/organizer/RegistrationsList.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

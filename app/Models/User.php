@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Illuminate\Support\Str;
+
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
@@ -46,7 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getFullNameAttribute()
     {
-        return "{$this->first_name} {$this->last_name}";
+        return Str::ucfirst($this->first_name) . ' ' . Str::upper($this->last_name);
     }
 
     /**

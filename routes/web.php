@@ -71,6 +71,7 @@ Route::domain('{race}.'.env('APP_DOMAIN'))->middleware('race_subdomain')->group(
         // Registrations
         Route::prefix('/registrations')->group(function() {
             Route::get('/', 'Race\RegistrationOrganizerController@list')->name('race.organizer.registrations');
+            Route::get('/{file_number}', 'Race\RegistrationOrganizerController@detail')->name('race.organizer.registrations.detail');
         });
 
         // CMS

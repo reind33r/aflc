@@ -29,6 +29,20 @@ class TeamPilot extends Pivot {
                     ->where('user_id', $this->user_id)
                     ->where('team_id', $this->team_id)
                     ->where('pilot_document_id', $pd->id)
+                    ->where('valid', true)
                     ->exists();
+    }
+
+    public function allDocumentsValid() {
+        $countReceived = DB::table('m2m_pilot_documents')
+                            ->where('user_id', $this->user_id)
+                            ->where('team_id', $this->team_id)
+                            ->where('valid', true)
+                            ->count();
+        
+        $countTotalDocuments = PilotDocument::where('race_subdomain', $this->team->registration_opportunity->race_subdomain)
+                                            ->count();
+        
+        return ($countReceived == $countTotalDocuments);
     }
 }

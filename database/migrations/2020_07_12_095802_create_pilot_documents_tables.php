@@ -33,6 +33,8 @@ class CreatePilotDocumentsTables extends Migration
             $table->unsignedBigInteger('pilot_document_id');
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('user_id');
+            $table->boolean('valid')->default(False);
+            $table->string('upload_path')->nullable();
 
             $table->foreign('pilot_document_id')
                   ->references('id')->on('pilot_documents')

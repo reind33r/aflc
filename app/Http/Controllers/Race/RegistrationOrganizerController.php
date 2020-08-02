@@ -14,6 +14,7 @@ class RegistrationOrganizerController extends Controller
         $teams = Team::whereHas('registration_opportunity', function($q) use($request) {
                                 $q->where('race_subdomain', $request->route('race')->subdomain);
                             })
+                            ->orderBy('created_at', 'asc')
                             ->get();
         
         return view('race.organizer.registrations.list', [

@@ -29,7 +29,7 @@
 
                 </p>
 
-                <a href="https://tancarville.a-fond-la-caisse.com" class="btn btn-primary">Accéder au site</a>
+                <a href="https://descentes-folkloriques-tancarville.hostux.fr" class="btn btn-primary">Accéder au site</a>
             </div>
         </div>
     </div>
